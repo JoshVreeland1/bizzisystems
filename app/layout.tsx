@@ -1,3 +1,4 @@
+// app/layout.tsx
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
@@ -41,6 +42,12 @@ export const metadata: Metadata = {
   }
 };
 
+// ✅ Mobile viewport only (does not change desktop)
+export const viewport = {
+  width: "device-width",
+  initialScale: 1
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const styles: Record<string, React.CSSProperties> = {
     page: {
@@ -60,10 +67,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   };
 
   return (
-    <html lang="en" className={`${heading.variable} ${body.variable}`} style={styles.smooth}>
+    <html
+      lang="en"
+      className={`${heading.variable} ${body.variable}`}
+      style={styles.smooth}
+    >
       <body style={styles.page}>
         <Nav />
-        <main style={styles.main}>{children}</main>
+        {/* ✅ className hook for mobile-only padding via globals.css */}
+        <main style={styles.main} className="containerPadMobile">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

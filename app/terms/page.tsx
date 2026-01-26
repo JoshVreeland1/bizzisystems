@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { absoluteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Terms | CurbIQ",
-  description: "Terms of use for CurbIQ and Bizzi.",
+  title: "Terms | Bizzi Systems",
+  description: "Terms of use for Bizzi Systems and Bizzi.",
   openGraph: {
-    title: "Terms | CurbIQ",
+    title: "Terms | Bizzi Systems",
     url: absoluteUrl("/terms")
   }
 };
@@ -29,7 +29,7 @@ export default function TermsPage() {
 
       <p style={styles.p}>
         By accessing or using this website, you agree to these Terms of Use.
-        This site provides informational content about CurbIQ, Bizzi, and the
+        This site provides informational content about Bizzi Systems, Bizzi, and the
         Bizzi CurbStrip.
       </p>
 
@@ -47,21 +47,21 @@ export default function TermsPage() {
 
       <h2 style={styles.h2}>Limitation of liability</h2>
       <p style={styles.p}>
-        To the maximum extent permitted by law, CurbIQ shall not be liable for
+        To the maximum extent permitted by law, Bizzi Systems shall not be liable for
         any direct, indirect, incidental, or consequential damages arising from
         use of this site or reliance on its content.
       </p>
 
       <h2 style={styles.h2}>Intellectual property</h2>
       <p style={styles.p}>
-        All content, trademarks, and materials are the property of CurbIQ
+        All content, trademarks, and materials are the property of Bizzi Systems
         unless otherwise stated. Unauthorized use is prohibited.
       </p>
 
       <h2 style={styles.h2}>Governing law</h2>
       <p style={styles.p}>
         These terms are governed by the laws of the applicable jurisdiction
-        in which CurbIQ operates, without regard to conflict-of-law principles.
+        in which Bizzi Systems operates, without regard to conflict-of-law principles.
       </p>
 
       <h2 style={styles.h2}>Contact</h2>

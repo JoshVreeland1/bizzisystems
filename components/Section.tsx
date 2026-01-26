@@ -21,8 +21,9 @@ export default function Section({ eyebrow, title, children, id }: Props) {
       fontWeight: 700,
       marginBottom: 10
     },
+    // ✅ Mobile shrinks naturally, desktop stays identical
     title: {
-      fontSize: 34,
+      fontSize: "clamp(26px, 4.2vw, 34px)",
       lineHeight: 1.15,
       margin: 0,
       letterSpacing: "-0.03em"

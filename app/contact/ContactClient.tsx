@@ -1,4 +1,3 @@
-// app/contact/ContactClient.tsx
 "use client";
 
 import { useState } from "react";
@@ -13,7 +12,7 @@ export default function ContactClient() {
     wrap: { padding: "56px 0" },
     h1: {
       fontFamily: "var(--font-heading)",
-      fontSize: 44,
+      fontSize: "clamp(34px, 6vw, 44px)",
       letterSpacing: "-0.04em",
       margin: 0
     },
@@ -32,11 +31,14 @@ export default function ContactClient() {
       padding: 20,
       maxWidth: 760
     },
+
+    // ✅ Desktop stays 2-col. Mobile naturally collapses to 1-col when space is tight.
     grid: {
       display: "grid",
-      gridTemplateColumns: "1fr 1fr",
+      gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
       gap: 12
     },
+
     label: {
       fontSize: 12,
       letterSpacing: "0.14em",
@@ -50,7 +52,10 @@ export default function ContactClient() {
       padding: "12px",
       borderRadius: 12,
       border: "1px solid #ddd",
-      fontSize: 14
+      fontSize: 14,
+      background: "#fff",
+      color: "#111",
+      outline: "none"
     },
     textarea: {
       width: "100%",
@@ -58,7 +63,12 @@ export default function ContactClient() {
       borderRadius: 12,
       border: "1px solid #ddd",
       minHeight: 140,
-      fontSize: 14
+      fontSize: 14,
+      background: "#fff",
+      color: "#111",
+      outline: "none",
+      lineHeight: 1.6,
+      resize: "vertical"
     },
     button: {
       marginTop: 14,
@@ -69,13 +79,21 @@ export default function ContactClient() {
       color: "#fff",
       fontWeight: 700,
       fontSize: 14,
-      cursor: "pointer"
+      cursor: "pointer",
+
+      // ✅ Mobile-friendly without affecting desktop
+      width: "100%",
+      maxWidth: 220
+    },
+    buttonRow: {
+      display: "flex",
+      justifyContent: "flex-start"
     }
   };
 
   function handleSend() {
     const to = "josh@curbiqsystems.com,ryker@curbiqsystems.com";
-    const subject = encodeURIComponent(`CurbIQ Contact — ${topic}`);
+    const subject = encodeURIComponent(`Bizzi Systems Contact — ${topic}`);
     const body = encodeURIComponent(
       `Name: ${name}\nEmail: ${email}\nTopic: ${topic}\n\nMessage:\n${message}`
     );
@@ -127,9 +145,11 @@ export default function ContactClient() {
           />
         </div>
 
-        <button style={styles.button} onClick={handleSend}>
-          Send
-        </button>
+        <div style={styles.buttonRow}>
+          <button style={styles.button} onClick={handleSend}>
+            Send
+          </button>
+        </div>
       </div>
     </section>
   );

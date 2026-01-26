@@ -1,3 +1,4 @@
+// app/page.tsx
 import Script from "next/script";
 import CTAButtons from "@/components/CTAButtons";
 import Section from "@/components/Section";
@@ -9,7 +10,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Bizzi makes curb parking measurable",
   description:
-    "CurbIQ builds Bizzi and the Bizzi CurbStrip to deliver real-time parking availability, curbside occupancy detection, and smarter curb economics for cities and drivers.",
+    "Bizzi Systems builds Bizzi and the Bizzi CurbStrip to deliver real-time parking availability, curbside occupancy detection, and smarter curb economics for cities and drivers.",
   openGraph: {
     title: "Bizzi makes curb parking measurable",
     description:
@@ -103,9 +104,9 @@ export default function HomePage() {
       lineHeight: 1.6
     },
     accentBlue: {
-        color: "#2563EB", // use the same blue as the demo
-        fontWeight: 700
-    }  
+      color: "#2563EB",
+      fontWeight: 700
+    }
   };
 
   const orgJsonLd = {
@@ -130,6 +131,50 @@ export default function HomePage() {
 
   return (
     <>
+      {/* Mobile-only layout fixes (desktop stays identical) */}
+      <style>{`
+        @media (max-width: 900px) {
+          .home-hero-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .home-h1 {
+            font-size: 42px !important;
+            letter-spacing: -0.035em !important;
+          }
+          .home-sub {
+            max-width: 100% !important;
+          }
+        }
+
+        @media (max-width: 520px) {
+          .home-h1 {
+            font-size: 36px !important;
+            line-height: 1.08 !important;
+          }
+          .home-hero {
+            padding: 52px 0 40px 0 !important;
+          }
+          .home-right-card {
+            padding: 18px !important;
+          }
+          .home-bullets {
+            font-size: 14px !important;
+            line-height: 1.75 !important;
+          }
+          .home-grid2 {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+          .home-badge-row {
+            gap: 8px !important;
+          }
+          .home-badge {
+            padding: 7px 10px !important;
+            font-size: 11px !important;
+          }
+        }
+      `}</style>
+
       <Script
         id="jsonld-org"
         type="application/ld+json"
@@ -141,12 +186,15 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
 
-      <section style={styles.hero}>
-        <div style={styles.heroGrid}>
+      <section style={styles.hero} className="home-hero">
+        <div style={styles.heroGrid} className="home-hero-grid">
           <div>
-            <h1 style={styles.h1}>We are making parking <span style={styles.accentBlue}>easy</span>.</h1>
-            <p style={styles.sub}>
-              CurbIQ builds <b>smart city parking</b> infrastructure that turns curb space into a live system:
+            <h1 style={styles.h1} className="home-h1">
+              We are making parking <span style={styles.accentBlue}>easy</span>.
+            </h1>
+
+            <p style={styles.sub} className="home-sub">
+              Bizzi Systems builds <b>smart city parking</b> infrastructure that turns curb space into a live system:
               <b> curbside occupancy detection</b> powered by the <b>Bizzi CurbStrip</b>, surfaced as{" "}
               <b>real-time parking availability</b> inside the Bizzi app.
             </p>
@@ -158,23 +206,23 @@ export default function HomePage() {
               secondaryText="Join the Waitlist"
             />
 
-            <div style={styles.badgeRow} aria-label="Key keywords">
-              <div style={styles.badge}>on-street parking sensors</div>
-              <div style={styles.badge}>dynamic curb pricing</div>
-              <div style={styles.badge}>real-time availability</div>
+            <div style={styles.badgeRow} className="home-badge-row" aria-label="Key keywords">
+              <div style={styles.badge} className="home-badge">on-street parking sensors</div>
+              <div style={styles.badge} className="home-badge">dynamic curb pricing</div>
+              <div style={styles.badge} className="home-badge">real-time availability</div>
             </div>
           </div>
 
-          <div style={styles.rightCard}>
+          <div style={styles.rightCard} className="home-right-card">
             <div style={styles.rightTitle}>What you get</div>
-            <ul style={styles.bullets}>
+            <ul style={styles.bullets} className="home-bullets">
               <li>Real-time parking occupancy in an app</li>
               <li>Cleaner enforcement workflows and better utilization</li>
               <li>Data foundation for pricing, policy, and planning</li>
               <li>Driver experience that reduces cruising and uncertainty</li>
             </ul>
 
-            <div style={styles.grid2}>
+            <div style={styles.grid2} className="home-grid2">
               <div style={styles.card}>
                 <div style={styles.cardTitle}>For Cities</div>
                 <div style={styles.small}>Visibility, efficiency, and a measurable curb economy.</div>
@@ -224,8 +272,7 @@ export default function HomePage() {
 
       <Section eyebrow="Demo" title="See it work: occupancy change → real-time update">
         <DemoLoop />
-        <div style={{ marginTop: 16, color: "#555", lineHeight: 1.7 }}>
-        </div>
+        <div style={{ marginTop: 16, color: "#555", lineHeight: 1.7 }} />
         <VideoSpecs />
       </Section>
 
@@ -262,7 +309,5 @@ function VideoSpecs() {
     }
   };
 
-  return (
-    null
-  );
+  return null;
 }

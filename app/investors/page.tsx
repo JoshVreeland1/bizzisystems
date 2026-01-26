@@ -4,7 +4,7 @@ import { absoluteUrl, site } from "@/lib/seo";
 export const metadata: Metadata = {
   title: "Investors",
   description:
-    "Contact CurbIQ to discuss investing in Bizzi and the Bizzi CurbStrip: real-time parking availability and curbside occupancy detection.",
+    "Contact Bizzi Systems to discuss investing in Bizzi and the Bizzi CurbStrip: real-time parking availability and curbside occupancy detection.",
   openGraph: {
     title: "Investors",
     description:

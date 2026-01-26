@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { absoluteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Privacy | CurbIQ",
-  description: "Privacy policy for CurbIQ and Bizzi.",
+  title: "Privacy | Bizzi Systems",
+  description: "Privacy policy for Bizzi Systems and Bizzi.",
   openGraph: {
-    title: "Privacy | CurbIQ",
+    title: "Privacy | Bizzi Systems",
     url: absoluteUrl("/privacy")
   }
 };
@@ -28,7 +28,7 @@ export default function PrivacyPage() {
       <h1 style={styles.h1}>Privacy Policy</h1>
 
       <p style={styles.p}>
-        CurbIQ respects your privacy. This policy explains how information is collected,
+        Bizzi Systems respects your privacy. This policy explains how information is collected,
         used, and protected when you interact with our website, products, and services.
       </p>
 

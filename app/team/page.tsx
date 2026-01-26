@@ -1,14 +1,13 @@
-// app/team/page.tsx
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Team | CurbIQ",
+  title: "Team | Bizzi Systems",
   description:
     "Meet the team building Bizzi and the Bizzi CurbStrip: smart city parking, curbside occupancy detection, and real-time parking availability.",
   openGraph: {
-    title: "Team | CurbIQ",
+    title: "Team | Bizzi Systems",
     description:
       "Meet the team building Bizzi and the Bizzi CurbStrip for real-time curbside occupancy detection.",
     url: "/team",
@@ -17,9 +16,9 @@ export const metadata: Metadata = {
 };
 
 type CropSettings = {
-  zoom: number; // 1.0–1.25
-  x: number; // 0–100 (higher = crop more to the right)
-  y: number; // 0–100
+  zoom: number;
+  x: number;
+  y: number;
 };
 
 type TeamMember = {
@@ -39,7 +38,7 @@ export default function TeamPage() {
     container: { maxWidth: 1100, margin: "0 auto" },
 
     heading: {
-      fontSize: 46,
+      fontSize: "clamp(34px, 6vw, 46px)",
       lineHeight: 1.05,
       letterSpacing: "-0.03em",
       margin: 0,
@@ -53,15 +52,18 @@ export default function TeamPage() {
       maxWidth: 760
     },
 
+    // ✅ FIX: allow cards to shrink on mobile, keep 2-up on desktop.
     grid: {
       marginTop: 40,
       display: "grid",
-      gridTemplateColumns: "repeat(12, 1fr)",
+      gridTemplateColumns: "repeat(auto-fit, minmax(clamp(280px, 92vw, 420px), 1fr))",
       gap: 18
     },
 
+    // ✅ ensures cards can shrink inside grid without causing overflow
     card: {
-      gridColumn: "span 6",
+      minWidth: 0,
+      width: "100%",
       border: "1px solid #eee",
       borderRadius: 18,
       background: "#fff",
@@ -78,7 +80,6 @@ export default function TeamPage() {
       marginBottom: 16
     },
 
-    // ✅ NEW: inner layer handles zoom reliably (Image stays untransformed)
     avatarInner: {
       position: "absolute",
       inset: 0
@@ -136,7 +137,8 @@ export default function TeamPage() {
     ctaRow: {
       marginTop: 40,
       display: "flex",
-      gap: 10
+      gap: 10,
+      flexWrap: "wrap"
     },
     btn: {
       padding: "12px 16px",
@@ -167,24 +169,22 @@ export default function TeamPage() {
       name: "Josh Vreeland",
       role: "Founder & Chief Executive Officer",
       image: "/team/josh.png",
-      // ✅ move RIGHT by increasing x (try 70 → 80 → 90)
-      // ✅ if you want "more crop", increase zoom too (1.10–1.20)
       crop: { zoom: 1.11, x: 50, y: 80 },
       email: "josh@curbiqsystems.com",
       linkedinUrl: "https://www.linkedin.com/in/josh-vreeland-77306a2bb/",
       bio:
-        "Josh brings a background in economics from the University of Texas at Austin, experience building full-stack programs, and has spent the past few years in the legal field. Josh leads CurbIQ’s vision, strategy, and execution, overseeing product direction, partnerships, and deployment strategy.",
+        "Josh brings a background in economics from the University of Texas at Austin, experience building full-stack programs, and has spent the past few years in the legal field. Josh leads Bizzi Systems’s vision, strategy, and execution, overseeing product direction, partnerships, and deployment strategy.",
       tags: ["Vision", "Long-Term Strategy", "Partnerships", "Execution Oversight"]
     },
     {
       name: "Ryker Purdy",
-      role: "Co-Founder & Chief Business Officer",
+      role: "Co-Founder & Chief Financial Officer",
       image: "/team/ryker.png",
       crop: { zoom: 1.5, x: 55, y: 20 },
       email: "ryker@curbiqsystems.com",
       linkedinUrl: "https://www.linkedin.com/in/ryker-purdy-7137b1309/",
       bio:
-        "Ryker brings a strong background in finance and investment analysis from Hamilton College, with experience conducting equity research and supporting portfolio decisions at an investment firm managing over $2B in assets. He has also led and mentored teams, managing a $2.3M student-run investment portfolio with a long-standing record of disciplined, long-term performance. Ryker leads fundraising, city partnerships, and long-term economic strategy for CurbIQ.",
+        "Ryker brings a strong background in finance and investment analysis from Hamilton College, with experience conducting equity research and supporting portfolio decisions at an investment firm managing over $2B in assets. He has also led and mentored teams, managing a $2.3M student-run investment portfolio with a long-standing record of disciplined, long-term performance. Ryker leads fundraising, city partnerships, and long-term economic strategy for Bizzi Systems.",
       tags: ["Capital Strategy", "Fundraising", "Economic Analysis", "Strategic Planning"]
     }
   ];
@@ -193,9 +193,7 @@ export default function TeamPage() {
     <main style={styles.page}>
       <div style={styles.container}>
         <h1 style={styles.heading}>Team</h1>
-        <p style={styles.sub}>
-          We’re building Bizzi and the Bizzi CurbStrip to make parking efficient.
-        </p>
+        <p style={styles.sub}>We’re building Bizzi and the Bizzi CurbStrip to make parking efficient.</p>
 
         <section style={styles.grid}>
           {team.map((m) => {
@@ -206,7 +204,6 @@ export default function TeamPage() {
             return (
               <article key={m.name} style={styles.card}>
                 <div style={styles.avatarWrap}>
-                  {/* ✅ Crop/zoom happens HERE, not on the Image */}
                   <div
                     style={{
                       ...styles.avatarInner,
@@ -232,12 +229,7 @@ export default function TeamPage() {
                     <MailIcon style={styles.icon} />
                     Email
                   </a>
-                  <a
-                    style={styles.contactPill}
-                    href={m.linkedinUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                  <a style={styles.contactPill} href={m.linkedinUrl} target="_blank" rel="noreferrer">
                     <LinkedInIcon style={styles.icon} />
                     LinkedIn
                   </a>

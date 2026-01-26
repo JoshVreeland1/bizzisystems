@@ -1,3 +1,4 @@
+// components/Footer.tsx
 import Link from "next/link";
 import { site } from "@/lib/seo";
 
@@ -57,60 +58,72 @@ export default function Footer() {
   };
 
   // 🔑 Email config
-  const CONTACT_EMAILS = [
-    "josh@curbiqsystems.com",
-    "ryker@curbiqsystems.com"
-  ].join(",");
+  const CONTACT_EMAILS = ["josh@curbiqsystems.com", "ryker@curbiqsystems.com"].join(",");
 
-  const SUBJECT = encodeURIComponent("Inquiry about CurbIQ / Bizzi");
-  const BODY = encodeURIComponent(
-    "Hi Josh and Ryker,\n\n" +
-    "I’m reaching out regarding CurbIQ.\n\n"
-  );
+  const SUBJECT = encodeURIComponent("Inquiry about Bizzi Systems / Bizzi");
+  const BODY = encodeURIComponent("Hi Josh and Ryker,\n\n" + "I’m reaching out regarding Bizzi Systems.\n\n");
 
   const MAILTO = `mailto:${CONTACT_EMAILS}?subject=${SUBJECT}&body=${BODY}`;
 
   return (
-    <footer style={styles.wrap}>
-      <div style={styles.inner}>
-        <div style={styles.col}>
-          <div style={styles.title}>{site.name}</div>
-          <div style={styles.meta}>
-            {site.appName} maps curbside availability with real-time parking
-            occupancy signals from the {site.productName}.<br />
-            <span style={styles.small}>
-              Smart city parking • curbside occupancy detection • real-time parking availability
-            </span>
+    <>
+      {/* Mobile-only refinements (desktop stays identical) */}
+      <style>{`
+        @media (max-width: 720px) {
+          footer > div {
+            padding: 22px 16px !important;
+            gap: 18px !important;
+          }
+
+          footer > div > div {
+            min-width: 100% !important;
+          }
+
+          footer a {
+            word-break: break-word;
+          }
+        }
+      `}</style>
+
+      <footer style={styles.wrap}>
+        <div style={styles.inner}>
+          <div style={styles.col}>
+            <div style={styles.title}>{site.name}</div>
+            <div style={styles.meta}>
+              {site.appName} maps curbside availability with real-time parking occupancy signals from the {site.productName}.
+              <br />
+              <span style={styles.small}>
+                Smart city parking • curbside occupancy detection • real-time parking availability
+              </span>
+            </div>
           </div>
-        </div>
 
-        <div style={styles.col}>
-          <div style={styles.title}>Explore</div>
-          <Link href="/investors" style={styles.link}>
-            Become an Investor
-          </Link>
-          <Link href="/waitlist" style={styles.link}>
-            Join the Waitlist
-          </Link>
-          <Link href="/privacy" style={styles.link}>
-            Privacy
-          </Link>
-          <Link href="/terms" style={styles.link}>
-            Terms
-          </Link>
-        </div>
+          <div style={styles.col}>
+            <div style={styles.title}>Explore</div>
+            <Link href="/investors" style={styles.link}>
+              Become an Investor
+            </Link>
+            <Link href="/waitlist" style={styles.link}>
+              Join the Waitlist
+            </Link>
+            <Link href="/privacy" style={styles.link}>
+              Privacy
+            </Link>
+            <Link href="/terms" style={styles.link}>
+              Terms
+            </Link>
+          </div>
 
-        <div style={styles.col}>
-          <div style={styles.title}>Contact</div>
+          <div style={styles.col}>
+            <div style={styles.title}>Contact</div>
             <a href={MAILTO} style={styles.contactLink}>
-              Email CurbIQ
+              Email Bizzi Systems
             </a>
             <br />
-            <span style={styles.small}>
-              For investors, please include your firm, focus, and timeline.
-            </span>
+            <span style={styles.small}>For investors, please include your firm, focus, and timeline.</span>
           </div>
         </div>
-    </footer>
+      </footer>
+    </>
   );
 }

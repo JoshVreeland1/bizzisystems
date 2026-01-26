@@ -15,6 +15,8 @@ export default function CTAButtons(props: Props) {
       flexWrap: "wrap",
       alignItems: "center"
     },
+
+    // ✅ These flex rules keep desktop identical but make mobile buttons stack cleanly.
     primary: {
       display: "inline-flex",
       alignItems: "center",
@@ -26,7 +28,10 @@ export default function CTAButtons(props: Props) {
       border: "1px solid #2563EB",
       fontSize: 14,
       fontWeight: 600,
-      transition: "transform 160ms ease, opacity 160ms ease"
+      transition: "transform 160ms ease, opacity 160ms ease",
+      textDecoration: "none",
+      flex: "1 1 200px",
+      minHeight: 44
     },
     secondary: {
       display: "inline-flex",
@@ -39,7 +44,10 @@ export default function CTAButtons(props: Props) {
       border: "1px solid #111",
       fontSize: 14,
       fontWeight: 600,
-      transition: "transform 160ms ease, opacity 160ms ease"
+      transition: "transform 160ms ease, opacity 160ms ease",
+      textDecoration: "none",
+      flex: "1 1 200px",
+      minHeight: 44
     }
   };
 
