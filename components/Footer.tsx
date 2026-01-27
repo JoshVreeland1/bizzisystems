@@ -58,7 +58,7 @@ export default function Footer() {
   };
 
   // 🔑 Email config
-  const CONTACT_EMAILS = ["josh@curbiqsystems.com", "ryker@curbiqsystems.com"].join(",");
+  const CONTACT_EMAILS = ["josh@bizzisystems.com", "ryker@bizzisystems.com"].join(",");
 
   const SUBJECT = encodeURIComponent("Inquiry about Bizzi Systems / Bizzi");
   const BODY = encodeURIComponent("Hi Josh and Ryker,\n\n" + "I’m reaching out regarding Bizzi Systems.\n\n");
