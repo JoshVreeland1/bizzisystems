@@ -1,313 +1,256 @@
-// app/page.tsx
-import Script from "next/script";
-import CTAButtons from "@/components/CTAButtons";
-import Section from "@/components/Section";
-import DemoLoop from "@/components/DemoLoop";
-import FaqAccordion from "@/components/FaqAccordion";
-import { site, absoluteUrl } from "@/lib/seo";
-import type { Metadata } from "next";
+import type { Metadata } from 'next'
+import { Container, Eyebrow, Section } from './components/site/Container'
+import { PrimaryCta, SecondaryCta } from './components/site/Cta'
+import PhotoWithCaption from './components/site/PhotoWithCaption'
+import GateVsBayDiagram from './components/site/GateVsBayDiagram'
+import MeetingCta from './components/site/MeetingCta'
+import FieldStrip from './components/field/FieldStrip'
+import LiveField from './components/field/LiveField'
+import { getFieldSnapshot } from '@/lib/field-data/server'
 
 export const metadata: Metadata = {
-  title: "Bizzi makes curb parking measurable",
+  title: 'Bizzi Systems | Per-Space Occupancy Data',
   description:
-    "Bizzi Systems builds Bizzi and the Bizzi CurbStrip to deliver real-time parking availability, curbside occupancy detection, and smarter curb economics for cities and drivers.",
-  openGraph: {
-    title: "Bizzi makes curb parking measurable",
-    description:
-      "Real-time parking availability and curbside occupancy detection for smart city parking.",
-    url: absoluteUrl("/")
-  }
-};
+    'Surface-mounted, camera-free sensors that measure occupancy at the individual parking stall and loading bay. Live status, dwell and history in one platform.',
+  alternates: { canonical: '/' },
+}
 
-export default function HomePage() {
-  const styles: Record<string, React.CSSProperties> = {
-    hero: {
-      padding: "72px 0 56px 0"
-    },
-    heroGrid: {
-      display: "grid",
-      gridTemplateColumns: "1.1fr 0.9fr",
-      gap: 24,
-      alignItems: "center"
-    },
-    h1: {
-      fontFamily: "var(--font-heading)",
-      fontSize: 52,
-      lineHeight: 1.05,
-      margin: 0,
-      letterSpacing: "-0.04em"
-    },
-    sub: {
-      marginTop: 14,
-      fontSize: 17,
-      lineHeight: 1.7,
-      color: "#222",
-      maxWidth: 560
-    },
-    badgeRow: {
-      marginTop: 18,
-      display: "flex",
-      gap: 10,
-      flexWrap: "wrap"
-    },
-    badge: {
-      fontSize: 12,
-      fontWeight: 800,
-      letterSpacing: "0.12em",
-      textTransform: "uppercase",
-      border: "1px solid #eee",
-      borderRadius: 999,
-      padding: "8px 12px",
-      background: "#fff"
-    },
-    rightCard: {
-      border: "1px solid #eee",
-      borderRadius: 22,
-      padding: 22,
-      background: "#fff",
-      boxShadow: "0 18px 60px rgba(0,0,0,0.06)"
-    },
-    rightTitle: {
-      fontSize: 12,
-      letterSpacing: "0.16em",
-      textTransform: "uppercase",
-      fontWeight: 900,
-      color: "#666",
-      marginBottom: 10
-    },
-    bullets: {
-      margin: 0,
-      paddingLeft: 18,
-      color: "#222",
-      lineHeight: 1.8,
-      fontSize: 15
-    },
-    grid2: {
-      display: "grid",
-      gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-      gap: 14,
-      marginTop: 18
-    },
-    card: {
-      border: "1px solid #eee",
-      borderRadius: 18,
-      padding: 16,
-      background: "#fcfcfc"
-    },
-    cardTitle: {
-      fontWeight: 900,
-      marginBottom: 6
-    },
-    small: {
-      fontSize: 14,
-      color: "#333",
-      lineHeight: 1.6
-    },
-    accentBlue: {
-      color: "#2563EB",
-      fontWeight: 700
-    }
-  };
+export const revalidate = 60
 
-  const orgJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: site.name,
-    url: site.domain,
-    email: site.email,
-    brand: site.appName
-  };
+const CITY_QUESTIONS = [
+  'Which blocks are full at 2 p.m. and empty at 7 p.m.?',
+  'How long are vehicles staying?',
+  'Which spaces consistently go unused?',
+  'What does actual occupancy say before rates, regulations or capital plans change?',
+]
 
-  const productJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: site.productName,
-    brand: site.name,
-    description:
-      "Curbside sensing hardware for on-street parking sensors and real-time occupancy status feeding the Bizzi platform.",
-    category: "Smart City Parking",
-    url: site.domain
-  };
+const WAREHOUSE_QUESTIONS = [
+  'How long is a trailer actually at the bay?',
+  'Which bays carry the most dwell?',
+  'When does capacity tighten?',
+  'Does the gate timestamp describe what happened at the dock?',
+]
+
+const CITY_MEASURES = [
+  ['Live status', 'Occupied or vacant, per monitored stall.'],
+  ['Dwell', 'How long each vehicle held the space.'],
+  ['Turnover', 'Completed sessions against observed stall-days.'],
+  ['Occupancy rate', 'Occupied time as a share of observed time.'],
+  ['History', 'Every state change, timestamped and kept.'],
+]
+
+const SENSOR_FACTS = [
+  ['Dimensions', '4.72 × 2.2 × 1.30 in'],
+  ['Sensing', 'Magnetometer. No camera, no video, no plate data.'],
+  ['Mounting', 'Adhesive-bonded backplate with a replaceable sensor head.'],
+  ['Connectivity', 'LoRa to an on-site receiver, then to the cloud.'],
+  ['Housing', 'UV-stabilized polycarbonate, tamper-resistant screws.'],
+]
+
+export default async function HomePage() {
+  const fieldData = await getFieldSnapshot()
 
   return (
     <>
-      {/* Mobile-only layout fixes (desktop stays identical) */}
-      <style>{`
-        @media (max-width: 900px) {
-          .home-hero-grid {
-            grid-template-columns: 1fr !important;
-          }
-          .home-h1 {
-            font-size: 42px !important;
-            letter-spacing: -0.035em !important;
-          }
-          .home-sub {
-            max-width: 100% !important;
-          }
-        }
+      {/* Hero */}
+      <section className="border-b border-line bg-white">
+        <Container>
+          <div className="grid items-center gap-10 py-14 md:py-20 lg:grid-cols-12 lg:gap-14 lg:py-24">
+            <div className="lg:col-span-6">
+              <h1 className="text-[36px] sm:text-[44px] lg:text-[54px]">
+                Measure occupancy at the stall or bay.
+              </h1>
+              <p className="measure-wide mt-6 text-[17px] leading-relaxed text-muted md:text-[19px]">
+                Bizzi uses surface-mounted, camera-free sensors to measure individual
+                parking stalls and loading bays. Each occupancy change becomes live
+                status, dwell, utilization and history in the Bizzi platform.
+              </p>
+              <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+                <PrimaryCta size="lg" source="home_hero" />
+                <SecondaryCta href="/validation">See live validation</SecondaryCta>
+              </div>
+            </div>
 
-        @media (max-width: 520px) {
-          .home-h1 {
-            font-size: 36px !important;
-            line-height: 1.08 !important;
-          }
-          .home-hero {
-            padding: 52px 0 40px 0 !important;
-          }
-          .home-right-card {
-            padding: 18px !important;
-          }
-          .home-bullets {
-            font-size: 14px !important;
-            line-height: 1.75 !important;
-          }
-          .home-grid2 {
-            grid-template-columns: 1fr !important;
-            gap: 12px !important;
-          }
-          .home-badge-row {
-            gap: 8px !important;
-          }
-          .home-badge {
-            padding: 7px 10px !important;
-            font-size: 11px !important;
-          }
-        }
-      `}</style>
+            <div className="lg:col-span-6">
+              <PhotoWithCaption
+                src="/media/sensor-at-curb.jpg"
+                alt="A Bizzi PS Sensor bonded to the face of a parking-lot curb, seen at ground level with gravel in the foreground."
+                caption="A Bizzi PS Sensor on the curb face at the Austin field site. Surface mounted, with no pavement cut at this installation."
+                aspect="aspect-[3/2]"
+                priority
+                sizes="(min-width: 1024px) 560px, 100vw"
+              />
+            </div>
+          </div>
+        </Container>
+      </section>
 
-      <Script
-        id="jsonld-org"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
-      />
-      <Script
-        id="jsonld-product"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
-      />
+      <FieldStrip />
 
-      <section style={styles.hero} className="home-hero">
-        <div style={styles.heroGrid} className="home-hero-grid">
-          <div>
-            <h1 style={styles.h1} className="home-h1">
-              We are making parking <span style={styles.accentBlue}>easy</span>.
-            </h1>
-
-            <p style={styles.sub} className="home-sub">
-              Bizzi Systems builds <b>smart city parking</b> infrastructure that turns curb space into a live system:
-              <b> curbside occupancy detection</b> powered by the <b>Bizzi CurbStrip</b>, surfaced as{" "}
-              <b>real-time parking availability</b> inside the Bizzi app.
+      {/* Buyer questions */}
+      <Section labelledBy="questions">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-4">
+            <h2 id="questions" className="text-[28px] md:text-[34px]">
+              The questions change. The missing measurement is the same.
+            </h2>
+            <p className="measure mt-6 text-[16px] leading-relaxed text-muted">
+              A parking director and a distribution-center manager describe different
+              problems. Both come down to how long a specific space was occupied.
             </p>
+          </div>
 
-            <CTAButtons
-              primaryHref="/investors"
-              primaryText="Become an Investor"
-              secondaryHref="/waitlist"
-              secondaryText="Join the Waitlist"
-            />
+          <div className="grid gap-10 lg:col-span-8 lg:grid-cols-2 lg:gap-12">
+            {[
+              { heading: 'In a city', questions: CITY_QUESTIONS, href: '/cities' },
+              { heading: 'In a facility', questions: WAREHOUSE_QUESTIONS, href: '/warehouses' },
+            ].map((group) => (
+              <div key={group.heading}>
+                <Eyebrow>{group.heading}</Eyebrow>
+                <ul className="mt-5 border-t border-line">
+                  {group.questions.map((question) => (
+                    <li
+                      key={question}
+                      className="border-b border-line py-5 text-[17px] leading-snug text-ink"
+                    >
+                      {question}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Section>
 
-            <div style={styles.badgeRow} className="home-badge-row" aria-label="Key keywords">
-              <div style={styles.badge} className="home-badge">on-street parking sensors</div>
-              <div style={styles.badge} className="home-badge">dynamic curb pricing</div>
-              <div style={styles.badge} className="home-badge">real-time availability</div>
+      {/* Live data */}
+      <Section tone="surface" labelledBy="live-data">
+        <div className="grid gap-8 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-4">
+            <h2 id="live-data" className="text-[28px] md:text-[34px]">
+              The current reading from Austin.
+            </h2>
+            <p className="measure mt-5 text-[16px] leading-relaxed text-muted">
+              This panel reads the running deployment, not a recording. Pick a space to
+              see how it has been used over the last week.
+            </p>
+            <div className="mt-5">
+              <SecondaryCta href="/validation">Methodology and accuracy</SecondaryCta>
+            </div>
+          </div>
+          <div className="lg:col-span-8">
+            <LiveField initial={fieldData} interactionSource="validation_interaction" />
+          </div>
+        </div>
+      </Section>
+
+      {/* Cities */}
+      <Section divide labelledBy="cities">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-5">
+            <Eyebrow>Cities</Eyebrow>
+            <h2 id="cities" className="mt-4 text-[28px] md:text-[34px]">
+              Know which stalls are occupied. Understand how they are used.
+            </h2>
+            <p className="measure mt-6 text-[16px] leading-relaxed text-muted">
+              Parking and curb teams get a live view of each monitored space and the
+              record behind it, so a rate change, a time-limit change or a capital
+              request can point at measured occupancy instead of a sample count.
+            </p>
+            <p className="measure mt-4 text-[16px] leading-relaxed text-muted">
+              Bizzi reports occupancy and duration. It does not identify vehicles or
+              issue citations.
+            </p>
+            <div className="mt-7">
+              <SecondaryCta href="/cities">What cities measure</SecondaryCta>
             </div>
           </div>
 
-          <div style={styles.rightCard} className="home-right-card">
-            <div style={styles.rightTitle}>What you get</div>
-            <ul style={styles.bullets} className="home-bullets">
-              <li>Real-time parking occupancy in an app</li>
-              <li>Cleaner enforcement workflows and better utilization</li>
-              <li>Data foundation for pricing, policy, and planning</li>
-              <li>Driver experience that reduces cruising and uncertainty</li>
-            </ul>
+          <div className="lg:col-span-6 lg:col-start-7">
+            <dl className="border-t border-line">
+              {CITY_MEASURES.map(([term, detail]) => (
+                <div
+                  key={term}
+                  className="grid grid-cols-1 gap-1 border-b border-line py-5 sm:grid-cols-3 sm:gap-6"
+                >
+                  <dt className="text-[15px] font-medium text-ink">{term}</dt>
+                  <dd className="text-[15px] leading-relaxed text-muted sm:col-span-2">
+                    {detail}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+      </Section>
 
-            <div style={styles.grid2} className="home-grid2">
-              <div style={styles.card}>
-                <div style={styles.cardTitle}>For Cities</div>
-                <div style={styles.small}>Visibility, efficiency, and a measurable curb economy.</div>
-              </div>
-              <div style={styles.card}>
-                <div style={styles.cardTitle}>For Drivers</div>
-                <div style={styles.small}>Never search for parking again.</div>
-              </div>
+      {/* Warehouses */}
+      <Section tone="surface" labelledBy="warehouses">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-5">
+            <Eyebrow>Warehouses</Eyebrow>
+            <h2 id="warehouses" className="mt-4 text-[28px] md:text-[34px]">
+              Measure dwell at the bay, not just the gate.
+            </h2>
+            <p className="measure mt-6 text-[16px] leading-relaxed text-muted">
+              Gate and yard systems can tell an operator when a truck entered a
+              facility. Bizzi is designed to measure how long the monitored bay itself
+              was occupied, with a start and an end timestamp on each occupancy.
+            </p>
+            <div className="mt-7">
+              <SecondaryCta href="/warehouses">How bay dwell is recorded</SecondaryCta>
+            </div>
+          </div>
+
+          <div className="min-w-0 lg:col-span-7">
+            <GateVsBayDiagram />
+          </div>
+        </div>
+      </Section>
+
+      {/* The sensor */}
+      <Section divide labelledBy="sensor">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-6">
+            <PhotoWithCaption
+              src="/media/sensor-render.png"
+              alt="Product render of the Bizzi PS Sensor, a rounded rectangular white enclosure with four recessed screws and an embossed Bizzi mark, annotated with its dimensions."
+              caption="Bizzi PS Sensor. The sensor head lifts off a bonded backplate, so a unit can be swapped without disturbing the mount."
+              aspect="aspect-[3/2]"
+              sizes="(min-width: 1024px) 560px, 100vw"
+            />
+          </div>
+          <div className="lg:col-span-5 lg:col-start-8">
+            <h2 id="sensor" className="text-[28px] md:text-[34px]">
+              One device per space.
+            </h2>
+            <p className="measure mt-6 text-[16px] leading-relaxed text-muted">
+              The sensor detects a vehicle by the change it makes to the local magnetic
+              field. The reading is binary: the space is occupied, or it is empty. No
+              image, no plate.
+            </p>
+            <dl className="mt-8 border-t border-line">
+              {SENSOR_FACTS.map(([term, detail]) => (
+                <div key={term} className="border-b border-line py-4">
+                  <dt className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted">
+                    {term}
+                  </dt>
+                  <dd className="mt-1.5 text-[15px] leading-relaxed text-ink">{detail}</dd>
+                </div>
+              ))}
+            </dl>
+            <div className="mt-7">
+              <SecondaryCta href="/platform">Explore the platform</SecondaryCta>
             </div>
           </div>
         </div>
-      </section>
-
-      <Section eyebrow="Product" title="What we’re building">
-        <p>
-          <b>Bizzi</b> is the map and experience. <b>Bizzi CurbStrip</b> is the curbside hardware.
-          Together, they deliver reliable occupancy signals that unlock real-time availability, analytics,
-          and the foundation for smarter curb operations.
-        </p>
       </Section>
 
-      <Section eyebrow="Customers" title="Who it’s for">
-        <ul style={{ margin: 0, paddingLeft: 18, lineHeight: 1.9 }}>
-          <li><b>Cities</b>: manage demand, price intelligently, plan with real usage data</li>
-          <li><b>Drivers</b>: find parking faster with real-time availability</li>
-          <li><b>Universities</b>: reduce congestion and improve utilization</li>
-          <li><b>Districts & operators</b>: make curb space predictable and measurable</li>
-        </ul>
-      </Section>
-
-      <Section eyebrow="Problem" title="What it solves">
-        <p>
-          Curb parking is often a blind spot. Without accurate occupancy, enforcement and pricing are guesswork,
-          drivers cruise longer, and cities lose time and revenue. Bizzi targets those gaps with dependable
-          on-street status and a modern interface built around clarity.
-        </p>
-      </Section>
-
-      <Section eyebrow="Why" title="Why this solution">
-        <ul style={{ margin: 0, paddingLeft: 18, lineHeight: 1.9 }}>
-          <li><b>Fast install</b> and curb-native design</li>
-          <li><b>Durable</b> hardware approach built for real streets</li>
-          <li><b>Real-time</b> signals to power availability and operations</li>
-          <li><b>Lower total cost</b> path versus heavier infrastructure</li>
-        </ul>
-      </Section>
-
-      <Section eyebrow="Demo" title="See it work: occupancy change → real-time update">
-        <DemoLoop />
-        <div style={{ marginTop: 16, color: "#555", lineHeight: 1.7 }} />
-        <VideoSpecs />
-      </Section>
-
-      <Section eyebrow="FAQ" title="Common questions">
-        <FaqAccordion />
-      </Section>
+      <MeetingCta
+        body="Tell us what you are trying to measure. We will use the meeting to understand the site, the number of spaces, and what a useful deployment would need to prove."
+        source="home_footer"
+        secondary={{ href: '/validation', label: 'See live validation' }}
+      />
     </>
-  );
-}
-
-function VideoSpecs() {
-  const styles: Record<string, React.CSSProperties> = {
-    box: {
-      marginTop: 18,
-      border: "1px solid #eee",
-      borderRadius: 16,
-      background: "#fff",
-      padding: 16
-    },
-    title: {
-      fontSize: 12,
-      letterSpacing: "0.16em",
-      textTransform: "uppercase",
-      fontWeight: 900,
-      color: "#666",
-      marginBottom: 10
-    },
-    list: {
-      margin: 0,
-      paddingLeft: 18,
-      color: "#222",
-      lineHeight: 1.85,
-      fontSize: 14
-    }
-  };
-
-  return null;
+  )
 }

@@ -1,51 +1,121 @@
-/* app/globals.css */
+@import "tailwindcss";
 
-html,
-body {
-  padding: 0;
-  margin: 0;
+/*
+ * Bizzi Systems design tokens.
+ *
+ * The blue is sampled directly from the logo mark (public/BizziLogo.png),
+ * which is a solid #2F6BFF circle. It carries the mark, buttons, rules, chart
+ * fills and focus rings. Everything else is a tonal step from it.
+ *
+ * One wrinkle: white on #2F6BFF measures 4.4988:1, and AA wants 4.5 for normal
+ * text. --color-brand-cta is the same blue with one unit less green, which
+ * reads as 4.5391:1 and is indistinguishable by eye. It backs anything with
+ * white text on it. Everything else — the mark, rules, chart fills, focus
+ * rings — uses the logo blue exactly.
+ *
+ * --color-brand-strong is a darker step of the same hue, used only for small
+ * blue text on white where the extra contrast is genuinely legible.
+ */
+@theme {
+  --color-brand: #2F6BFF;
+  --color-brand-cta: #2F6AFF;
+  --color-brand-strong: #1E4FD1;
+  --color-brand-press: #1740AE;
+  --color-brand-tint: #EDF2FF;
+  --color-brand-on-dark: #7FA5FF;
+
+  --color-navy: #0A162B;
+  --color-navy-2: #16273F;
+
+  --color-ink: #101B2D;
+  --color-muted: #566681;
+  --color-muted-on-dark: #A9B9D1;
+  --color-line: #DCE3ED;
+  --color-line-strong: #C2CDDC;
+  --color-line-on-dark: #2A3A54;
+  --color-surface: #F5F7FA;
+  --color-surface-2: #EBEFF6;
+
+  /* Operational status only. Never decorative. */
+  --color-vacant: #12734A;
+  --color-vacant-tint: #E4F3EB;
+  --color-occupied: #B3261E;
+  --color-occupied-tint: #FBEAE8;
+
+  --font-sans: var(--font-plex), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+
+  --radius-sm: 3px;
+  --radius-DEFAULT: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  --breakpoint-xs: 26.875rem; /* 430px — large phones */
 }
 
-* {
-  box-sizing: border-box;
-}
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  body {
+    margin: 0;
+    background: #fff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
 
-:focus-visible {
-  outline: 2px solid #111;
-  outline-offset: 3px;
-}
+  h1, h2, h3, h4 {
+    font-weight: 600;
+    letter-spacing: -0.018em;
+    text-wrap: balance;
+  }
 
-/* =========================
-   Mobile-only layout polish
-   Desktop stays identical
-   ========================= */
+  h1 { line-height: 1.08; }
+  h2 { line-height: 1.14; }
+  h3 { line-height: 1.25; }
 
-/* Prevent any accidental horizontal overflow on small screens */
-html,
-body {
-  overflow-x: hidden;
-}
+  p { text-wrap: pretty; }
 
-/* This only affects mobile because we only change it in the media query */
-@media (max-width: 720px) {
-  .containerPadMobile {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
+  a { color: inherit; text-decoration: none; }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--color-brand);
+    color: #fff;
+  }
+
+  /* Numbers that sit in columns or update in place must not jitter. */
+  [data-numeric] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
   }
 }
 
-/* Improve tap behavior on mobile without changing desktop look */
-@media (hover: none) and (pointer: coarse) {
-  a,
-  button,
-  input,
-  select,
-  textarea {
-    -webkit-tap-highlight-color: transparent;
+@layer utilities {
+  /* Editorial measure. ~62–72 characters at the sizes used here. */
+  .measure { max-width: 34rem; }
+  .measure-wide { max-width: 44rem; }
+
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

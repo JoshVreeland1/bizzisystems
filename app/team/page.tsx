@@ -1,289 +1,180 @@
-import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
+import type { Metadata } from 'next'
+import { Section } from '../components/site/Container'
+import { SecondaryCta } from '../components/site/Cta'
+import MeetingCta from '../components/site/MeetingCta'
+import PageHeader from '../components/site/PageHeader'
+import PhotoWithCaption from '../components/site/PhotoWithCaption'
+import TeamProfile, { type TeamMember } from '../components/site/TeamProfile'
+import Timeline, { type Milestone } from '../components/site/Timeline'
+import { COMPANY_ADDRESS, FIELD_SITE } from '@/lib/site'
 
 export const metadata: Metadata = {
-  title: "Team | Bizzi Systems",
+  title: 'Team',
   description:
-    "Meet the team building Bizzi and the Bizzi CurbStrip: smart city parking, curbside occupancy detection, and real-time parking availability.",
-  openGraph: {
-    title: "Team | Bizzi Systems",
-    description:
-      "Meet the team building Bizzi and the Bizzi CurbStrip for real-time curbside occupancy detection.",
-    url: "/team",
-    type: "website"
-  }
-};
+    'The two founders behind Bizzi Systems, and how the company went from a first prototype on a curb to sensors running in the field in Austin.',
+  alternates: { canonical: '/team' },
+}
 
-type CropSettings = {
-  zoom: number;
-  x: number;
-  y: number;
-};
+const TEAM: TeamMember[] = [
+  {
+    name: 'Josh Vreeland',
+    title: 'Founder & Chief Executive Officer',
+    owns: 'Product, fundraising and pipeline.',
+    photo: { src: '/team/josh.png', objectPosition: 'center 18%' },
+    bio: [
+      'Josh hated parking so much he decided it’s what he should pursue. While studying economics at UT Austin, he built Bizzi’s first prototype and now serves as CEO.',
+      'Before Bizzi, Josh built and sold a software platform and played collegiate football.',
+    ],
+  },
+  {
+    name: 'Michael Austinson',
+    title: 'Co-founder & Chief Operating Officer',
+    owns: 'Manufacturing, supply, field deployment, operations and logistics.',
+    photo: { src: '/team/michael.png', objectPosition: 'center 20%' },
+    bio: [
+      'Before cofounding Bizzi, Michael served six years in the Marine Corps, including nearly five stationed overseas.',
+      'Michael studies civic leadership at UT Austin and runs how Bizzi’s hardware gets built, shipped and installed.',
+    ],
+  },
+]
 
-type TeamMember = {
-  name: string;
-  role: string;
-  image: string;
-  crop: CropSettings;
-  bio: string;
-  tags: string[];
-  email: string;
-  linkedinUrl: string;
-};
+const MILESTONES: Milestone[] = [
+  {
+    stage: 'First prototype',
+    heading: 'A device that could tell whether one space was in use.',
+    body: [
+      'The starting question was narrow: why should measuring a single parking space require a camera pointed at the street or a saw cut in the pavement? The first prototype was an attempt to answer that with a magnetometer and a radio.',
+    ],
+    image: {
+      src: '/media/first-prototype.jpg',
+      alt: 'Josh kneeling at a residential curb, fitting the first Bizzi prototype strip along the gutter line, with a drill and tape beside him.',
+      caption: 'The first prototype going down on a curb.',
+      aspect: 'aspect-square',
+    },
+  },
+  {
+    stage: 'Product development',
+    heading: 'From a prototype into something installable.',
+    body: [
+      'The device became a sealed unit at 4.72 by 2.2 by 1.30 inches, in UV-stabilized polycarbonate with tamper-resistant screws. The head separates from a bonded backplate, so a unit can be swapped without redoing the mount.',
+    ],
+    image: {
+      src: '/media/backplate-install.jpg',
+      alt: 'Hands fastening the Bizzi backplate to the face of a curb with a screwdriver, cabling and screws on the asphalt.',
+      caption: 'The bonded backplate going down in the field.',
+      aspect: 'aspect-[4/3]',
+    },
+  },
+  {
+    stage: 'Field installation',
+    heading: 'Three spaces in Austin.',
+    body: [
+      `Sensors went onto regular, pickup and ADA spaces at a field site in ${FIELD_SITE.city}, with a receiver covering the group. That deployment has been running since September 2026.`,
+    ],
+    image: {
+      src: '/media/sensor-at-curb.jpg',
+      alt: 'A Bizzi PS Sensor bonded to the curb face of a monitored parking space, photographed at ground level.',
+      caption: 'One of the three monitored spaces.',
+      aspect: 'aspect-[4/3]',
+    },
+  },
+  {
+    stage: 'Working platform',
+    heading: 'The software the sensors feed.',
+    body: [
+      'Every state change is stored with its own timestamp. Live status, occupancy rate, dwell, turnover, sensor health and period reporting all read off that record, and so does the accuracy check-in system used to validate it.',
+    ],
+    wideImage: {
+      src: '/media/platform-analytics.jpg',
+      alt: 'The Bizzi analytics dashboard: parking and sensor tabs, a stall filter, and datasets for occupancy, dwell, turnover, vacancy and peak demand.',
+      caption: 'The operator analytics view.',
+      aspect: 'aspect-[2880/740]',
+    },
+  },
+]
 
 export default function TeamPage() {
-  const styles: Record<string, React.CSSProperties> = {
-    page: { padding: "72px 18px 80px", background: "#fff" },
-    container: { maxWidth: 1100, margin: "0 auto" },
-
-    heading: {
-      fontSize: "clamp(34px, 6vw, 46px)",
-      lineHeight: 1.05,
-      letterSpacing: "-0.03em",
-      margin: 0,
-      color: "#0b0b0c"
-    },
-    sub: {
-      marginTop: 14,
-      fontSize: 16,
-      lineHeight: 1.7,
-      color: "#333",
-      maxWidth: 760
-    },
-
-    // ✅ FIX: allow cards to shrink on mobile, keep 2-up on desktop.
-    grid: {
-      marginTop: 40,
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(clamp(280px, 92vw, 420px), 1fr))",
-      gap: 18
-    },
-
-    // ✅ ensures cards can shrink inside grid without causing overflow
-    card: {
-      minWidth: 0,
-      width: "100%",
-      border: "1px solid #eee",
-      borderRadius: 18,
-      background: "#fff",
-      padding: 22
-    },
-
-    avatarWrap: {
-      position: "relative",
-      width: 180,
-      height: 180,
-      borderRadius: "50%",
-      overflow: "hidden",
-      background: "#f2f2f2",
-      marginBottom: 16
-    },
-
-    avatarInner: {
-      position: "absolute",
-      inset: 0
-    },
-
-    role: {
-      margin: 0,
-      fontSize: 12,
-      letterSpacing: "0.14em",
-      textTransform: "uppercase",
-      color: "#666",
-      fontWeight: 800
-    },
-    name: {
-      margin: "8px 0 6px",
-      fontSize: 18,
-      fontWeight: 900,
-      color: "#0b0b0c"
-    },
-
-    contactRow: {
-      marginTop: 10,
-      display: "flex",
-      flexWrap: "wrap",
-      gap: 10
-    },
-    contactPill: {
-      display: "inline-flex",
-      alignItems: "center",
-      gap: 8,
-      padding: "8px 10px",
-      borderRadius: 999,
-      border: "1px solid #e9e9e9",
-      background: "#fafafa",
-      textDecoration: "none",
-      color: "#111",
-      fontWeight: 800,
-      fontSize: 12
-    },
-    icon: { width: 16, height: 16 },
-
-    bio: { marginTop: 14, fontSize: 14, lineHeight: 1.7, color: "#2a2a2a" },
-
-    chips: { marginTop: 14, display: "flex", flexWrap: "wrap", gap: 8 },
-    chip: {
-      fontSize: 12,
-      padding: "6px 10px",
-      borderRadius: 999,
-      border: "1px solid #e9e9e9",
-      background: "#fafafa",
-      color: "#333",
-      fontWeight: 700
-    },
-
-    ctaRow: {
-      marginTop: 40,
-      display: "flex",
-      gap: 10,
-      flexWrap: "wrap"
-    },
-    btn: {
-      padding: "12px 16px",
-      borderRadius: 999,
-      border: "1px solid #111",
-      background: "#111",
-      color: "#fff",
-      textDecoration: "none",
-      fontWeight: 900,
-      fontSize: 13,
-      textTransform: "uppercase"
-    },
-    btnGhost: {
-      padding: "12px 16px",
-      borderRadius: 999,
-      border: "1px solid #2563EB",
-      background: "#2563EB",
-      color: "#fff",
-      textDecoration: "none",
-      fontWeight: 900,
-      fontSize: 13,
-      textTransform: "uppercase"
-    }
-  };
-
-  const team: TeamMember[] = [
-    {
-      name: "Josh Vreeland",
-      role: "Founder & Chief Executive Officer",
-      image: "/team/josh.png",
-      crop: { zoom: 1.11, x: 50, y: 80 },
-      email: "josh@curbiqsystems.com",
-      linkedinUrl: "https://www.linkedin.com/in/josh-vreeland-77306a2bb/",
-      bio:
-        "Josh brings a background in economics from the University of Texas at Austin, experience building full-stack programs, and has spent the past few years in the legal field. Josh leads Bizzi Systems’s vision, strategy, and execution, overseeing product direction, partnerships, and deployment strategy.",
-      tags: ["Vision", "Long-Term Strategy", "Partnerships", "Execution Oversight"]
-    },
-    {
-      name: "Ryker Purdy",
-      role: "Co-Founder & Chief Financial Officer",
-      image: "/team/ryker.png",
-      crop: { zoom: 1.5, x: 55, y: 20 },
-      email: "ryker@curbiqsystems.com",
-      linkedinUrl: "https://www.linkedin.com/in/ryker-purdy-7137b1309/",
-      bio:
-        "Ryker brings a strong background in finance and investment analysis from Hamilton College, with experience conducting equity research and supporting portfolio decisions at an investment firm managing over $2B in assets. He has also led and mentored teams, managing a $2.3M student-run investment portfolio with a long-standing record of disciplined, long-term performance. Ryker leads fundraising, city partnerships, and long-term economic strategy for Bizzi Systems.",
-      tags: ["Capital Strategy", "Fundraising", "Economic Analysis", "Strategic Planning"]
-    }
-  ];
-
   return (
-    <main style={styles.page}>
-      <div style={styles.container}>
-        <h1 style={styles.heading}>Team</h1>
-        <p style={styles.sub}>We’re building Bizzi and the Bizzi CurbStrip to make parking efficient.</p>
+    <>
+      <PageHeader
+        eyebrow="Team"
+        title="Bizzi started with one question about one parking space."
+        lead="Why should measuring whether a single space is occupied require a camera or cutting into pavement? Everything since has been the work of answering that, building the thing that answers it, and putting it outside where it has to hold up."
+      />
 
-        <section style={styles.grid}>
-          {team.map((m) => {
-            const zoom = clamp(m.crop.zoom, 1, 1.3);
-            const x = clamp(m.crop.x, 0, 100);
-            const y = clamp(m.crop.y, 0, 100);
-
-            return (
-              <article key={m.name} style={styles.card}>
-                <div style={styles.avatarWrap}>
-                  <div
-                    style={{
-                      ...styles.avatarInner,
-                      transform: `scale(${zoom})`,
-                      transformOrigin: `${x}% ${y}%`
-                    }}
-                  >
-                    <Image
-                      src={m.image}
-                      alt={`${m.name} headshot`}
-                      fill
-                      style={{ objectFit: "cover" }}
-                      unoptimized
-                    />
-                  </div>
-                </div>
-
-                <p style={styles.role}>{m.role}</p>
-                <h2 style={styles.name}>{m.name}</h2>
-
-                <div style={styles.contactRow}>
-                  <a style={styles.contactPill} href={`mailto:${m.email}`}>
-                    <MailIcon style={styles.icon} />
-                    Email
-                  </a>
-                  <a style={styles.contactPill} href={m.linkedinUrl} target="_blank" rel="noreferrer">
-                    <LinkedInIcon style={styles.icon} />
-                    LinkedIn
-                  </a>
-                </div>
-
-                <p style={styles.bio}>{m.bio}</p>
-
-                <div style={styles.chips}>
-                  {m.tags.map((t) => (
-                    <span key={t} style={styles.chip}>
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            );
-          })}
-        </section>
-
-        <div style={styles.ctaRow}>
-          <Link href="/contact" style={styles.btn}>
-            Contact
-          </Link>
-          <Link href="/investors" style={styles.btnGhost}>
-            Become an Investor
-          </Link>
+      <Section tone="surface" labelledBy="chronology">
+        <h2 id="chronology" className="text-[28px] md:text-[34px]">
+          How it got here.
+        </h2>
+        <div className="mt-10">
+          <Timeline milestones={MILESTONES} />
         </div>
-      </div>
-    </main>
-  );
-}
+      </Section>
 
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
-}
+      <Section divide labelledBy="team">
+        <div className="grid gap-6 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-4">
+            <h2 id="team" className="text-[28px] md:text-[34px]">
+              Who is doing the work.
+            </h2>
+            <p className="measure mt-5 text-[16px] leading-relaxed text-muted">
+              Two founders, both full time, both on the deployment.
+            </p>
+            <PhotoWithCaption
+              className="mt-8 max-w-[380px]"
+              src="/media/founders-at-site.jpg"
+              alt="Michael Austinson and Josh Vreeland standing in the parking lot at the Austin field site, with the monitored curb behind them."
+              caption="Michael and Josh at the field site. The monitored curb runs behind them, with one sensor at the curb edge between them."
+              aspect="aspect-[9/10]"
+              sizes="(min-width: 1024px) 380px, 100vw"
+            />
+          </div>
+          <div className="lg:col-span-8">
+            <div className="border-t border-line">
+              {TEAM.map((member) => (
+                <TeamProfile key={member.name} member={member} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </Section>
 
-function MailIcon({ style }: { style: React.CSSProperties }) {
-  return (
-    <svg viewBox="0 0 24 24" style={style} aria-hidden="true">
-      <path
-        fill="currentColor"
-        d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"
+      <Section tone="navy" labelledBy="standing">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-4">
+            <h2 id="standing" className="text-[28px] md:text-[34px]">
+              Where the company stands.
+            </h2>
+          </div>
+          <div className="lg:col-span-7">
+            <p className="text-[17px] leading-relaxed text-muted-on-dark">
+              Bizzi Systems, Inc. is a Delaware C-Corp based in Austin, founded in 2026.
+              The company is pre-revenue. The sensor and the platform are built and
+              running in the field. The commercial record begins with the deployments
+              being scoped now.
+            </p>
+            <p className="mt-5 text-[17px] leading-relaxed text-muted-on-dark">
+              Everything on the validation page comes off the deployment that is running
+              today. Where a figure does not exist yet, the page says so.
+            </p>
+            <address className="mt-8 not-italic text-[15px] leading-relaxed text-muted-on-dark">
+              {COMPANY_ADDRESS.street}
+              <br />
+              Austin, Texas {COMPANY_ADDRESS.postalCode}
+            </address>
+            <div className="mt-7">
+              <SecondaryCta href="/validation" onDark>
+                See the field deployment
+              </SecondaryCta>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <MeetingCta
+        body="If you run parking for a city or operations for a facility, the useful next conversation is about your spaces rather than ours."
+        source="team_footer"
       />
-    </svg>
-  );
-}
-
-function LinkedInIcon({ style }: { style: React.CSSProperties }) {
-  return (
-    <svg viewBox="0 0 24 24" style={style} aria-hidden="true">
-      <path
-        fill="currentColor"
-        d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM8.3 18H6V9h2.3v9zM7.1 7.7A1.3 1.3 0 1 1 7.1 5a1.3 1.3 0 0 1 0 2.7zM18 18h-2.3v-4.3c0-1-.4-1.7-1.4-1.7-.8 0-1.2.5-1.4 1v5H10V9h2.2v1.2c.3-.5 1-1.2 2.3-1.2 1.6 0 3 1 3 3.4V18z"
-      />
-    </svg>
-  );
+    </>
+  )
 }

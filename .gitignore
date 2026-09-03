@@ -2,5 +2,10 @@ node_modules
 .next
 .env
 .env.*
+!.env.example
 .DS_Store
 .vercel
+tsconfig.tsbuildinfo
+.env.deploy.local
+assets/
+anti-ai-slop/
