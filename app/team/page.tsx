@@ -2,7 +2,6 @@ import { Section } from '../components/site/Container'
 import { SecondaryCta } from '../components/site/Cta'
 import MeetingCta from '../components/site/MeetingCta'
 import PageHeader from '../components/site/PageHeader'
-import PhotoWithCaption from '../components/site/PhotoWithCaption'
 import TeamProfile, { type TeamMember } from '../components/site/TeamProfile'
 import Timeline, { type Milestone } from '../components/site/Timeline'
 import { COMPANY_ADDRESS, createPageMetadata, FIELD_SITE } from '@/lib/site'
@@ -10,7 +9,7 @@ import { COMPANY_ADDRESS, createPageMetadata, FIELD_SITE } from '@/lib/site'
 export const metadata = createPageMetadata({
   title: 'Team',
   description:
-    'The two founders behind Bizzi Systems, and how the company went from a first prototype on a curb to sensors running in the field in Austin.',
+    'The founder behind Bizzi Systems, and how the company went from a first prototype on a curb to sensors running in the field in Austin.',
   path: '/team',
 })
 
@@ -23,16 +22,6 @@ const TEAM: TeamMember[] = [
     bio: [
       'Josh hated parking so much he decided it’s what he should pursue. While studying economics at UT Austin, he built Bizzi’s first prototype and now serves as CEO.',
       'Before Bizzi, Josh built and sold a software platform and played collegiate football.',
-    ],
-  },
-  {
-    name: 'Michael Austinson',
-    title: 'Co-founder & Chief Operating Officer',
-    owns: 'Manufacturing, supply, field deployment, operations and logistics.',
-    photo: { src: '/team/michael.png', objectPosition: 'center 20%' },
-    bio: [
-      'Before cofounding Bizzi, Michael served six years in the Marine Corps, including five stationed overseas. He then worked as a Business Development Associate, bringing expertise in day-to-day operations, business development, and product strategy.',
-      "At Bizzi, Michael focuses on driving growth, improving execution, and continuously enhancing Bizzi's product.",
     ],
   },
 ]
@@ -117,16 +106,8 @@ export default function TeamPage() {
               Who is doing the work.
             </h2>
             <p className="measure mt-5 text-[16px] leading-relaxed text-muted">
-              Two founders, both full time, both on the deployment.
+              Full time, and on the deployment.
             </p>
-            <PhotoWithCaption
-              className="mt-8 max-w-[380px]"
-              src="/media/founders-at-site.jpg"
-              alt="Michael Austinson and Josh Vreeland standing in the parking lot at the Austin field site, with the monitored curb behind them."
-              caption="Michael and Josh at the field site. The monitored curb runs behind them, with one sensor at the curb edge between them."
-              aspect="aspect-[9/10]"
-              sizes="(min-width: 1024px) 380px, 100vw"
-            />
           </div>
           <div className="lg:col-span-8">
             <div className="border-t border-line">

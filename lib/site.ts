@@ -116,11 +116,12 @@ export const FIELD_SITE = {
   city: 'Austin, Texas',
 } as const
 
+export const LOGIN_URL = 'https://app.bizzisystems.com/login'
+
 export const CONTACT_EMAIL = 'josh@bizzisystems.com'
 
-/** Both founders are on every inbound thread. */
 export const CONTACT_MAILTO =
-  'mailto:josh@bizzisystems.com,michael@bizzisystems.com' +
+  'mailto:josh@bizzisystems.com' +
   '?subject=' +
   encodeURIComponent('Bizzi deployment inquiry')
 

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { NAV } from '@/lib/site'
+import { LOGIN_URL, NAV } from '@/lib/site'
 import { PrimaryCta } from './Cta'
 import { Container } from './Container'
 
@@ -196,6 +196,12 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <a
+              href={LOGIN_URL}
+              className="mr-3 hidden py-2 text-[15px] font-medium text-muted transition-colors duration-150 hover:text-ink sm:inline"
+            >
+              Log in
+            </a>
             <PrimaryCta size="sm" source="header" />
             <button
               ref={toggleRef}
@@ -271,6 +277,11 @@ export default function Header() {
                   )}
                 </li>
               ))}
+              <li>
+                <a href={LOGIN_URL} className="block py-4 text-[17px] font-medium text-ink">
+                  Log in
+                </a>
+              </li>
             </ul>
             <div className="py-5">
               <PrimaryCta size="lg" source="mobile_menu" className="w-full" />

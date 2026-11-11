@@ -80,8 +80,7 @@ export default function DeploymentForm({ scheduler }: { scheduler: SchedulerConf
         {scheduler.mode !== 'none' ? (
           <>
             <p className="measure mt-4 text-[16px] leading-relaxed text-muted">
-              Pick a time and we will come prepared with what you just told us. Josh and
-              Michael are both on the invite.
+              Pick a time and we will come prepared with what you just told us.
             </p>
 
             {scheduler.mode === 'embed' ? (

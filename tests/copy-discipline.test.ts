@@ -61,6 +61,11 @@ const OFF_LIMITS_NAMES = [
   'alex gilbert',
   'whoop',
   'mass product development',
+  // No longer on the team.
+  'michael',
+  'austinson',
+  // Former company name.
+  'curbiq',
 ]
 
 const MARKETING_FILLER = [

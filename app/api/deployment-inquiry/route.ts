@@ -32,6 +32,42 @@ const SUPABASE_ANON_KEY =
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
   ''
 
+/**
+ * Email notification per submission, sent after the row is saved. A failure
+ * here is logged and swallowed: the inquiry is already recorded.
+ * RESEND_FROM must be on a domain verified in Resend; the resend.dev fallback
+ * only delivers to the Resend account owner's own address.
+ */
+async function notify(inquiry: Record<string, string>) {
+  const apiKey = process.env.RESEND_API_KEY
+  const to = process.env.INQUIRY_NOTIFY_EMAIL
+  if (!apiKey || !to) {
+    console.error('[deployment-inquiry] RESEND_API_KEY or INQUIRY_NOTIFY_EMAIL not set; skipping email.')
+    return
+  }
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: process.env.RESEND_FROM || 'Bizzi Systems <onboarding@resend.dev>',
+        to: to.split(',').map((address) => address.trim()),
+        reply_to: inquiry.email,
+        subject: `Deployment inquiry: ${inquiry.organization}`,
+        text: Object.entries(inquiry)
+          .map(([key, value]) => `${key}: ${value || '-'}`)
+          .join('\n'),
+      }),
+      signal: AbortSignal.timeout(5000),
+    })
+    if (!response.ok) {
+      console.error('[deployment-inquiry] Resend failed with status', response.status, await response.text())
+    }
+  } catch (error) {
+    console.error('[deployment-inquiry] Resend threw:', error)
+  }
+}
+
 const LIMITS = { name: 120, email: 200, organization: 160, note: 2000 }
 
 const WINDOW_MS = 10 * 60_000
@@ -147,6 +183,8 @@ export async function POST(request: NextRequest) {
       { status: 502 }
     )
   }
+
+  await notify({ name, email, organization, market, approximate_spaces: size, note })
 
   return NextResponse.json({ ok: true })
 }
