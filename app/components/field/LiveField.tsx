@@ -37,9 +37,11 @@ function LiveBadge({ stale }: { stale: boolean }) {
 export default function LiveField({
   initial,
   interactionSource,
+  showCoverageNote = true,
 }: {
   initial: FieldDataResult
   interactionSource: 'validation_interaction' | 'platform_interaction'
+  showCoverageNote?: boolean
 }) {
   const [result, setResult] = useState(initial)
   const [selectedKey, setSelectedKey] = useState<string | null>(null)
@@ -124,10 +126,12 @@ export default function LiveField({
         </div>
       </div>
 
-      <p className="mt-6 text-[13px] leading-relaxed text-muted">
-        Rates cover {formatObservedWindow(snapshot.windowStart, snapshot.generatedAt)} at the
-        Austin field site.
-      </p>
+      {showCoverageNote ? (
+        <p className="mt-6 text-[13px] leading-relaxed text-muted">
+          Rates cover {formatObservedWindow(snapshot.windowStart, snapshot.generatedAt)} at the
+          Austin field site.
+        </p>
+      ) : null}
     </div>
   )
 }

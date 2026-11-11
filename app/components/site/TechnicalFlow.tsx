@@ -36,9 +36,7 @@ export function TechnicalFlow({
       {steps.map((step, index) => (
         <li
           key={step.label}
-          className={`-mt-px border-t px-0 py-6 sm:-ml-px sm:mt-0 sm:border-l sm:border-t-0 sm:px-5 sm:py-5 ${tone} ${
-            index === 0 ? 'sm:pl-0' : ''
-          }`}
+          className={`-mt-px border-t px-0 py-6 sm:-ml-px sm:mt-0 sm:border-l sm:border-t-0 sm:px-5 sm:py-5 ${tone}`}
         >
           <span
             data-numeric

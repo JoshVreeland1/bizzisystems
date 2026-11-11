@@ -1,4 +1,3 @@
-import type { Metadata } from 'next'
 import { Section } from '../components/site/Container'
 import PageHeader from '../components/site/PageHeader'
 import { SecondaryCta } from '../components/site/Cta'
@@ -7,13 +6,14 @@ import { TechnicalFlow } from '../components/site/TechnicalFlow'
 import MeetingCta from '../components/site/MeetingCta'
 import LiveField from '../components/field/LiveField'
 import { getFieldSnapshot } from '@/lib/field-data/server'
+import { createPageMetadata } from '@/lib/site'
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'Bizzi Platform | Occupancy Sensors & Analytics',
   description:
     'How the Bizzi PS Sensor, the receiver and the Bizzi platform work as one system: live occupancy, dwell, turnover, sensor health, reporting and API delivery.',
-  alternates: { canonical: '/platform' },
-}
+  path: '/platform',
+})
 
 export const revalidate = 60
 
@@ -58,7 +58,7 @@ const CAPABILITIES: [string, string][] = [
 const NOT_SUPPORTED = [
   'No cameras and no video. The sensor reports whether a space is occupied. There is no footage to store, redact or produce later.',
   'No license plates and no vehicle identity. Bizzi cannot tell one vehicle from another.',
-  'No automatic citations. Occupancy and duration go to the staff who make enforcement decisions.',
+  'Occupancy and duration go to the staff who make enforcement decisions.',
 ]
 
 export default async function PlatformPage() {
@@ -129,23 +129,6 @@ export default async function PlatformPage() {
               aspect="aspect-[3/2]"
               sizes="(min-width: 1024px) 560px, 100vw"
             />
-            {/* Mount, then unit in service — the two halves of the claim above. */}
-            <div className="mt-6 grid grid-cols-2 gap-4">
-              <PhotoWithCaption
-                src="/media/backplate-install.jpg"
-                alt="Hands fastening the Bizzi backplate to the face of a curb with a screwdriver, cabling and screws on the asphalt."
-                caption="The backplate going down."
-                aspect="aspect-[4/5]"
-                sizes="(min-width: 1024px) 270px, 45vw"
-              />
-              <PhotoWithCaption
-                src="/media/sensor-at-curb.jpg"
-                alt="A Bizzi PS Sensor bonded to a curb face at the Austin field site, photographed at ground level."
-                caption="The head seated and reporting."
-                aspect="aspect-[4/5]"
-                sizes="(min-width: 1024px) 270px, 45vw"
-              />
-            </div>
           </div>
         </div>
       </Section>
@@ -189,7 +172,11 @@ export default async function PlatformPage() {
           </p>
         </div>
         <div className="mt-12">
-          <LiveField initial={fieldData} interactionSource="platform_interaction" />
+          <LiveField
+            initial={fieldData}
+            interactionSource="platform_interaction"
+            showCoverageNote={false}
+          />
         </div>
       </Section>
 

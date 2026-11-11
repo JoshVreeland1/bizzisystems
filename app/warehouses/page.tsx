@@ -1,4 +1,3 @@
-import type { Metadata } from 'next'
 import { Container, Eyebrow, Section } from '../components/site/Container'
 import { SecondaryCta } from '../components/site/Cta'
 import GateVsBayDiagram from '../components/site/GateVsBayDiagram'
@@ -6,13 +5,14 @@ import MeetingCta from '../components/site/MeetingCta'
 import PageViewTracker from '../components/site/PageViewTracker'
 import PhotoWithCaption from '../components/site/PhotoWithCaption'
 import { StateSequence } from '../components/site/TechnicalFlow'
+import { createPageMetadata } from '@/lib/site'
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'Loading Bay Dwell & Utilization Data',
   description:
     'Bay-level occupancy and dwell records for distribution centers, warehouses and 3PLs. Start and end timestamps on the monitored bay itself, not the gate.',
-  alternates: { canonical: '/warehouses' },
-}
+  path: '/warehouses',
+})
 
 const RECORD_STEPS = [
   { state: 'Truck arrives', note: 'A trailer backs into a monitored bay.' },

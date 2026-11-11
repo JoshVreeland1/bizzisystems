@@ -1,17 +1,17 @@
-import type { Metadata } from 'next'
 import { Section } from '../components/site/Container'
 import PageHeader from '../components/site/PageHeader'
 import { SecondaryCta } from '../components/site/Cta'
 import MeetingCta from '../components/site/MeetingCta'
 import PageViewTracker from '../components/site/PageViewTracker'
 import PhotoWithCaption from '../components/site/PhotoWithCaption'
+import { createPageMetadata } from '@/lib/site'
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'Parking Occupancy Data for Cities',
   description:
     'Per-stall occupancy, dwell, turnover and history for municipal parking and curb teams. Camera-free sensors, live status, and reports that show their own methodology.',
-  alternates: { canonical: '/cities' },
-}
+  path: '/cities',
+})
 
 const WORKFLOW: { stage: string; question: string; body: string[] }[] = [
   {

@@ -3,7 +3,16 @@ import { IBM_Plex_Sans } from 'next/font/google'
 import './globals.css'
 import Header from './components/site/Header'
 import Footer from './components/site/Footer'
-import { COMPANY_ADDRESS, SITE_NAME, SITE_URL } from '@/lib/site'
+import {
+  COMPANY_ADDRESS,
+  HOME_DESCRIPTION,
+  HOME_TITLE,
+  HOME_URL,
+  SOCIAL_IMAGE_ALT,
+  SOCIAL_IMAGE_URL,
+  SITE_NAME,
+  SITE_URL,
+} from '@/lib/site'
 
 const plex = IBM_Plex_Sans({
   subsets: ['latin'],
@@ -12,30 +21,37 @@ const plex = IBM_Plex_Sans({
   display: 'swap',
 })
 
-const DESCRIPTION =
-  'Bizzi builds surface-mounted, camera-free sensors that measure occupancy at the individual parking stall and loading bay, with live status, dwell and history in one platform.'
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Bizzi Systems | Per-Space Occupancy Data',
+    default: HOME_TITLE,
     template: `%s | ${SITE_NAME}`,
   },
-  description: DESCRIPTION,
+  description: HOME_DESCRIPTION,
   applicationName: SITE_NAME,
-  alternates: { canonical: '/' },
+  alternates: { canonical: HOME_URL },
   openGraph: {
     type: 'website',
     siteName: SITE_NAME,
-    url: SITE_URL,
-    title: 'Bizzi Systems | Per-Space Occupancy Data',
-    description: DESCRIPTION,
+    url: HOME_URL,
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
     locale: 'en_US',
+    images: [
+      {
+        url: SOCIAL_IMAGE_URL,
+        width: 1200,
+        height: 630,
+        alt: SOCIAL_IMAGE_ALT,
+        type: 'image/png',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Bizzi Systems | Per-Space Occupancy Data',
-    description: DESCRIPTION,
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
+    images: [{ url: SOCIAL_IMAGE_URL, alt: SOCIAL_IMAGE_ALT }],
   },
   robots: { index: true, follow: true },
 }
@@ -50,9 +66,9 @@ const ORGANIZATION_JSONLD = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Bizzi Systems, Inc.',
-  url: SITE_URL,
+  url: HOME_URL,
   logo: `${SITE_URL}/logo-mark.png`,
-  description: DESCRIPTION,
+  description: HOME_DESCRIPTION,
   foundingDate: '2026',
   address: {
     '@type': 'PostalAddress',

@@ -141,9 +141,9 @@ describe('claim discipline', () => {
     }
   })
 
-  it('says plainly that it does not issue citations', () => {
+  it('routes occupancy and duration to enforcement staff', () => {
     const platform = FILES.find((file) => file.path === 'app/platform/page.tsx')!
-    expect(platform.text).toContain('No automatic citations.')
+    expect(platform.text).not.toContain('No automatic citations.')
     expect(platform.text).toContain('go to the staff who make enforcement decisions')
   })
 

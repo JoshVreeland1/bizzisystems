@@ -1,6 +1,65 @@
-export const SITE_URL = 'https://www.bizzisystems.com'
+import type { Metadata } from 'next'
+
+export const SITE_URL = 'https://bizzisystems.com'
+
+export const HOME_URL = `${SITE_URL}/`
 
 export const SITE_NAME = 'Bizzi Systems'
+
+export const HOME_TITLE = 'Bizzi Systems | Per-Space Occupancy Data'
+
+export const HOME_DESCRIPTION =
+  'Surface-mounted, camera-free sensors that measure occupancy at the individual parking stall and loading bay. Live status, dwell and history in one platform.'
+
+export const SOCIAL_IMAGE_URL = `${SITE_URL}/opengraph-image`
+
+export const SOCIAL_IMAGE_ALT = 'Bizzi Systems — per-space occupancy data'
+
+/**
+ * Keeps canonical, Open Graph and Twitter metadata aligned for every route.
+ * The root opengraph-image.tsx file supplies the shared 1200×630 social image.
+ */
+export function createPageMetadata({
+  title,
+  description,
+  path,
+}: {
+  title: string
+  description: string
+  path: `/${string}` | '/'
+}): Metadata {
+  const url = path === '/' ? HOME_URL : `${SITE_URL}${path}`
+  const socialTitle = path === '/' ? title : `${title} | ${SITE_NAME}`
+
+  return {
+    title: path === '/' ? { absolute: title } : title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      siteName: SITE_NAME,
+      url,
+      title: socialTitle,
+      description,
+      locale: 'en_US',
+      images: [
+        {
+          url: SOCIAL_IMAGE_URL,
+          width: 1200,
+          height: 630,
+          alt: SOCIAL_IMAGE_ALT,
+          type: 'image/png',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: socialTitle,
+      description,
+      images: [{ url: SOCIAL_IMAGE_URL, alt: SOCIAL_IMAGE_ALT }],
+    },
+  }
+}
 
 export const PRIMARY_CTA = {
   label: 'Discuss a deployment',

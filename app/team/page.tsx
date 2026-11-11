@@ -1,4 +1,3 @@
-import type { Metadata } from 'next'
 import { Section } from '../components/site/Container'
 import { SecondaryCta } from '../components/site/Cta'
 import MeetingCta from '../components/site/MeetingCta'
@@ -6,14 +5,14 @@ import PageHeader from '../components/site/PageHeader'
 import PhotoWithCaption from '../components/site/PhotoWithCaption'
 import TeamProfile, { type TeamMember } from '../components/site/TeamProfile'
 import Timeline, { type Milestone } from '../components/site/Timeline'
-import { COMPANY_ADDRESS, FIELD_SITE } from '@/lib/site'
+import { COMPANY_ADDRESS, createPageMetadata, FIELD_SITE } from '@/lib/site'
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'Team',
   description:
     'The two founders behind Bizzi Systems, and how the company went from a first prototype on a curb to sensors running in the field in Austin.',
-  alternates: { canonical: '/team' },
-}
+  path: '/team',
+})
 
 const TEAM: TeamMember[] = [
   {
@@ -32,8 +31,8 @@ const TEAM: TeamMember[] = [
     owns: 'Manufacturing, supply, field deployment, operations and logistics.',
     photo: { src: '/team/michael.png', objectPosition: 'center 20%' },
     bio: [
-      'Before cofounding Bizzi, Michael served six years in the Marine Corps, including nearly five stationed overseas.',
-      'Michael studies civic leadership at UT Austin and runs how Bizzi’s hardware gets built, shipped and installed.',
+      'Before cofounding Bizzi, Michael served six years in the Marine Corps, including five stationed overseas. He then worked as a Business Development Associate, bringing expertise in day-to-day operations, business development, and product strategy.',
+      "At Bizzi, Michael focuses on driving growth, improving execution, and continuously enhancing Bizzi's product.",
     ],
   },
 ]
@@ -59,10 +58,10 @@ const MILESTONES: Milestone[] = [
       'The device became a sealed unit at 4.72 by 2.2 by 1.30 inches, in UV-stabilized polycarbonate with tamper-resistant screws. The head separates from a bonded backplate, so a unit can be swapped without redoing the mount.',
     ],
     image: {
-      src: '/media/backplate-install.jpg',
-      alt: 'Hands fastening the Bizzi backplate to the face of a curb with a screwdriver, cabling and screws on the asphalt.',
-      caption: 'The bonded backplate going down in the field.',
-      aspect: 'aspect-[4/3]',
+      src: '/media/development.jpg',
+      alt: 'Bizzi sensor housings, calipers, tools and an engineering notebook on a product-development workbench.',
+      caption: 'Developing the current sensor housing.',
+      aspect: 'aspect-square',
     },
   },
   {
@@ -88,7 +87,7 @@ const MILESTONES: Milestone[] = [
       src: '/media/platform-analytics.jpg',
       alt: 'The Bizzi analytics dashboard: parking and sensor tabs, a stall filter, and datasets for occupancy, dwell, turnover, vacancy and peak demand.',
       caption: 'The operator analytics view.',
-      aspect: 'aspect-[2880/740]',
+      aspect: 'aspect-[2000/944]',
     },
   },
 ]

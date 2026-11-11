@@ -1,15 +1,19 @@
-import type { Metadata } from 'next'
 import { Section } from '../components/site/Container'
 import PageHeader from '../components/site/PageHeader'
 import DeploymentForm from '../components/contact/DeploymentForm'
-import { COMPANY_ADDRESS, CONTACT_MAILTO, SCHEDULER } from '@/lib/site'
+import {
+  COMPANY_ADDRESS,
+  CONTACT_MAILTO,
+  createPageMetadata,
+  SCHEDULER,
+} from '@/lib/site'
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'Discuss a Deployment',
   description:
     'Tell us what you are trying to measure and we will scope a Bizzi deployment against it: the site, the number of spaces, and what it would need to prove.',
-  alternates: { canonical: '/contact' },
-}
+  path: '/contact',
+})
 
 const AGENDA = [
   ['The site', 'Which spaces, what surface, and what is physically around them.'],

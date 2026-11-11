@@ -1,12 +1,14 @@
 import type { Metadata } from 'next'
 import { Container, Eyebrow, Section } from '../components/site/Container'
-import { CONTACT_EMAIL } from '@/lib/site'
+import { CONTACT_EMAIL, createPageMetadata } from '@/lib/site'
 
 export const metadata: Metadata = {
-  title: 'Privacy',
-  description:
-    'What Bizzi Systems collects through this website, how long it is kept, and why the Bizzi sensor itself collects no personal information.',
-  alternates: { canonical: '/privacy' },
+  ...createPageMetadata({
+    title: 'Privacy',
+    description:
+      'What Bizzi Systems collects through this website, how long it is kept, and why the Bizzi sensor itself collects no personal information.',
+    path: '/privacy',
+  }),
   robots: { index: true, follow: true },
 }
 

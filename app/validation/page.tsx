@@ -1,4 +1,3 @@
-import type { Metadata } from 'next'
 import { Section } from '../components/site/Container'
 import PageHeader from '../components/site/PageHeader'
 import { SecondaryCta } from '../components/site/Cta'
@@ -14,14 +13,14 @@ import {
   formatSiteDate,
   formatSiteTime,
 } from '@/lib/field-data/format'
-import { FIELD_SITE } from '@/lib/site'
+import { createPageMetadata, FIELD_SITE } from '@/lib/site'
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'Field Validation',
   description:
     'Live field validation of the Bizzi PS Sensor in Austin, Texas: the running deployment, the public data it produces, how detection accuracy is measured, and what it cannot show yet.',
-  alternates: { canonical: '/validation' },
-}
+  path: '/validation',
+})
 
 export const revalidate = 60
 

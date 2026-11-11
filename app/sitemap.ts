@@ -1,11 +1,11 @@
 import type { MetadataRoute } from 'next'
-import { SITE_URL } from '@/lib/site'
+import { HOME_URL, SITE_URL } from '@/lib/site'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const updated = new Date()
 
   return [
-    { url: SITE_URL, lastModified: updated, changeFrequency: 'weekly', priority: 1 },
+    { url: HOME_URL, lastModified: updated, changeFrequency: 'weekly', priority: 1 },
     { url: `${SITE_URL}/platform`, lastModified: updated, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/cities`, lastModified: updated, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/warehouses`, lastModified: updated, changeFrequency: 'monthly', priority: 0.9 },

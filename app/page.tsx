@@ -1,4 +1,3 @@
-import type { Metadata } from 'next'
 import { Container, Eyebrow, Section } from './components/site/Container'
 import { PrimaryCta, SecondaryCta } from './components/site/Cta'
 import PhotoWithCaption from './components/site/PhotoWithCaption'
@@ -7,13 +6,13 @@ import MeetingCta from './components/site/MeetingCta'
 import FieldStrip from './components/field/FieldStrip'
 import LiveField from './components/field/LiveField'
 import { getFieldSnapshot } from '@/lib/field-data/server'
+import { createPageMetadata, HOME_DESCRIPTION, HOME_TITLE } from '@/lib/site'
 
-export const metadata: Metadata = {
-  title: 'Bizzi Systems | Per-Space Occupancy Data',
-  description:
-    'Surface-mounted, camera-free sensors that measure occupancy at the individual parking stall and loading bay. Live status, dwell and history in one platform.',
-  alternates: { canonical: '/' },
-}
+export const metadata = createPageMetadata({
+  title: HOME_TITLE,
+  description: HOME_DESCRIPTION,
+  path: '/',
+})
 
 export const revalidate = 60
 

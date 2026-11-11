@@ -100,7 +100,7 @@ export default function Timeline({ milestones }: { milestones: Milestone[] }) {
       {/* Rail + blue fill, aligned to the node column. */}
       <div
         aria-hidden="true"
-        className="absolute bottom-0 left-[7px] top-0 w-px bg-line md:left-[calc(16.6667%+7px)]"
+        className="absolute bottom-0 left-[7px] top-0 w-px bg-line lg:left-[calc(16.6667%_-_13.6667px)]"
       >
         <div
           className="w-full origin-top bg-brand transition-[height] duration-150 ease-out"
@@ -116,12 +116,12 @@ export default function Timeline({ milestones }: { milestones: Milestone[] }) {
             ref={(el) => {
               nodeRefs.current[index] = el
             }}
-            className="relative grid grid-cols-[auto_1fr] gap-x-5 pb-12 last:pb-0 md:grid-cols-12 md:gap-x-10"
+            className="relative grid grid-cols-[14px_minmax(0,1fr)] gap-x-5 pb-12 last:pb-0 lg:grid-cols-[minmax(0,2fr)_minmax(0,10fr)] lg:gap-x-10"
           >
             {/* Node dot on the rail. */}
             <span
               aria-hidden="true"
-              className={`relative z-10 mt-1.5 h-3.5 w-3.5 shrink-0 rounded-full border-2 bg-white transition-colors duration-200 md:col-span-2 md:justify-self-end ${
+              className={`relative z-10 mt-1.5 h-3.5 w-3.5 shrink-0 rounded-full border-2 bg-white transition-colors duration-200 lg:justify-self-end ${
                 active ? 'border-brand' : 'border-line-strong'
               }`}
             >
@@ -132,8 +132,8 @@ export default function Timeline({ milestones }: { milestones: Milestone[] }) {
               />
             </span>
 
-            <div className="md:col-span-10 md:grid md:grid-cols-10 md:gap-x-10">
-              <div className={milestone.image ? 'md:col-span-6' : 'md:col-span-8'}>
+            <div className="lg:grid lg:grid-cols-[minmax(0,6fr)_minmax(0,4fr)] lg:gap-x-10">
+              <div className={milestone.image ? '' : 'lg:col-span-2'}>
                 <span
                   className={`text-[11px] font-semibold uppercase tracking-[0.12em] transition-colors duration-200 ${
                     active ? 'text-brand-strong' : 'text-muted'
@@ -141,7 +141,7 @@ export default function Timeline({ milestones }: { milestones: Milestone[] }) {
                 >
                   {milestone.stage}
                 </span>
-                <h3 className="mt-2 text-[20px] font-medium leading-snug text-ink md:text-[22px]">
+                <h3 className="mt-2 text-[20px] font-medium leading-snug text-ink lg:text-[22px]">
                   {milestone.heading}
                 </h3>
                 {milestone.body.map((paragraph) => (
@@ -173,7 +173,7 @@ export default function Timeline({ milestones }: { milestones: Milestone[] }) {
               </div>
 
               {milestone.image ? (
-                <figure className="m-0 mt-6 md:col-span-4 md:mt-0">
+                <figure className="m-0 mt-6 lg:mt-0">
                   <div
                     className={`relative w-full overflow-hidden rounded-md border border-line bg-surface ${
                       milestone.image.aspect ?? 'aspect-[4/3]'
