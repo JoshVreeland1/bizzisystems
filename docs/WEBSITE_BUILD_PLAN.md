@@ -25,7 +25,7 @@ Logo: use supplied `BizziLogo.png` asset; do not alter favicon. If binary upload
 
 ## Roadmap / pass gates
 - [x] M0 — inspect GitHub projects and Nov 13 source of truth; branch isolation.
-- [ ] M1a — implement design tokens, accessible Nav and CTAs, landing page hero, actual v0.7 CAD-derived visual, and custom 404. Preserve existing secondary routes and favicon.
+- [x] M1a foundation (not yet accepted) — implement design tokens, accessible Nav and CTAs, landing page hero, actual v0.7 CAD-derived visual, and custom 404. Preserve existing secondary routes and favicon.
 - [ ] M1b — model conversion from v0.7 STEP to optimized GLB meshes with part IDs; manual explode/reassemble, keyboard selection, operator memos, media fallback. Do not claim completed 3D interaction until asset and functionality are verified.
 - [ ] M1c — test Next production build, 320/375/768/1440 widths, no horizontal overflow, controls, accessibility, 404, keyboard, reduced motion. Fix defects before preview acceptance.
 - [ ] M2 — city-level *illustrative* preview (location input, grounded facilities, no fake real-time occupancy or lane layouts), no email gate.
@@ -33,6 +33,14 @@ Logo: use supplied `BizziLogo.png` asset; do not alter favicon. If binary upload
 - [ ] M4 — consent-aware deterministic visitor preferences and personalization. User can clear preferences.
 - [ ] M5 — link existing invite-only portal login. Audit Supabase auth and permissions; do not modify authorization without separate PR and tests.
 - [ ] M6 — SEO, security, A11y, performance review, deployment and rollback rehearsal.
+
+## Current implementation notes (Nov 14)
+- Homepage implementation committed: tokens, navigation, responsive hero, CAD v0.7 assembly drawing, operator component memos, candid validation, 404 and loading skeletons.
+- Current hardware image is the **authentic v0.7 CAD SVG**; it is not yet an interactive GLB/3D viewer. Do not describe M1b as complete.
+- Current login route is a truthful temporary information page; portal URL/auth routing is not yet integrated.
+- Current contact page still uses legacy mailto behavior; proper scheduling/lead backend is M3.
+- Vercel access requires authorization; local clone failed because the container DNS could not resolve github.com. GitHub Actions CI added; do not claim responsive or build acceptance until checks run.
+- Main site has older secondary pages (investors/waitlist/contact) not yet reworked. These need copy/content audit before launch.
 
 ## Claude takeover protocol
 Read this file, `docs/WEBSITE_CHANGELOG.md`, full draft PR diff, v0.7 README and `SOURCE_OF_TRUTH.md` before editing. Confirm base SHA, run build and viewport tests, inspect designs before adding dependencies. Work on the same feature branch with small semantic commits (or branch from it for reviewed changes). Update both change log and PR description for every milestone, note any unvalidated assumptions and incomplete tests. Never overwrite the build plan or alter pilot repo outside separately approved PRs.
