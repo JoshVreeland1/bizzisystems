@@ -43,3 +43,7 @@ Supersedes the unaccepted M1a visual guidance above. Previous history is retaine
 - CAD verifier: all four parts match approved STL positions in both directions within 0.1µm export tolerance. SHA256 recorded in build plan.
 - Token contrast: muted on paper 5.55:1, secondary on paper 8.72:1, white on blue 6.28:1, blue on paper 5.61:1. Full WCAG audit remains a launch gate.
 - Final browser results and screenshot paths: recorded in WEBSITE_REVIEW.md after verification. Owner visual acceptance remains pending; both PRs stay drafts and production is unchanged.
+
+## 2026-11-14 — CI compatibility follow-up
+- Hosted runner `ubuntu-latest` moved to Ubuntu 26.04, unsupported by the existing pinned Playwright 1.58.2 installer. TypeScript and build passed; browser installation failed before executing tests. Pinned the website review job to Ubuntu 24.04, supported by that browser. No site behavior changes.
+- Local browser suite remains passed; hosted checks rerun on the corrected runner.

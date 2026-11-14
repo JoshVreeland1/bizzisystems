@@ -25,3 +25,6 @@ Local and CI output: `artifacts/website-smoke/` (generated; intentionally ignore
 Owner must judge visual quality. This is a targeted browser and contrast review, not a complete WCAG audit. Legacy team/investors/legal pages need a separate review before launch. Real scheduling and persisted waitlist remain pending provider/backend choice; owner confirmed no current waitlist provider. No city map or personalization implementation is included before homepage acceptance. Full dependency/security and device/screen-reader audits remain release gates.
 
 The SVG’s line weight alone was increased for screen readability; source CAD paths remain intact. Display materials and exploded offsets do not modify the GLB or imply production hardware performance.
+
+## Hosted CI follow-up
+The first hosted revision passed typecheck/build and failed at browser installation because `ubuntu-latest` became Ubuntu 26.04, unsupported by Playwright 1.58.2. The review workflow now pins supported Ubuntu 24.04. This changes only test infrastructure; local browser evidence above remains valid.
