@@ -41,8 +41,9 @@ async function main(){
   const missing=await page.goto(base+"/definitely-not-a-page");
   assert.equal(missing.status(),404);
   assert.match(await page.locator("h1").innerText(),/That page isn't here/);
-  const login=await page.goto(base+"/login");
-  assert((login.url()).startsWith("https://bizzi-pilot-platform.vercel.app/login"),"Login must redirect to existing pilot authentication");
+  const login=await fetch(base+"/login",{redirect:"manual"});
+  assert([307,308].includes(login.status),"Login must redirect");
+  assert((login.headers.get("location")||"").startsWith("https://bizzi-pilot-platform.vercel.app/login"),"Login must redirect to existing pilot authentication");
   console.log("Website smoke checks passed at all breakpoints, 404, and login redirect.");
  } finally {
   await browser?.close();server.kill("SIGTERM");
