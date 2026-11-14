@@ -1,46 +1,41 @@
-# Bizzi website redesign — execution plan and takeover contract
-Updated: 2026-11-14
-Owner: ChatGPT (implementation); Claude (approved takeover builder)
-Status: IN PROGRESS — draft PR only; do not merge without owner review.
+# Bizzi website — build plan and Claude handoff
+Updated: 2026-11-14. Review only: draft PR #1, branch `feat/municipal-homepage-v07`.
 
-## Product truth
-Primary: Bizzi Lane Counter; separate from secondary PS Sensor. One unit per controlled one-way entrance/exit lane. Proposed cellular → Blues Notehub → Bizzi backend/operator interface. No local LoRaWAN gateway.
-As of the Nov 13 engineering Source of Truth in `bizzi-pilot-platform/lane-counter/docs/SOURCE_OF_TRUTH.md`: Prototype A v0.6 exists, but v0.6 seal failed, prototype runs LiPo, and first scored Nov 12 session was 2/12 correct with 10 missed and 3 extra. No proven ≥98% accuracy, 45-second head replacement, 6-month battery, or Modii integration. Do not state targets as facts.
-Approved v0.7 CAD is in `bizzi-pilot-platform/lane-counter/cad/v0.7/`: v0.6 with divider relief, moved tap ring and battery connector; external cover/sled/bracket unchanged. Use v0.7 for any renders. The planned pilot redesign after v0.7 is not yet engineered.
+## Governing brief
+The Nov 14 Swiss correction supersedes the initial generic SaaS direction. Classic Swiss International Typographic Style: visible 1.5px #111111 rules, zero radii, #F4F2EC paper and white surfaces, #0047FF Signal Blue for actions/selection, restrained #FF4F00 status marks. Helvetica Neue / Helvetica / Arial system stack; mono annotations and tabular numbers. Full-width mathematical grid, desktop 60/40 hero, readable oversized heading, crosshairs and CAD coordinates. No bento, gradients, generic slogan fragments, invented device photography, or public engineering scorecards. Hard-offset CTA expands on hover through translation and shadow without changing layout; reduced motion disables transitions.
 
-## Governance / rollback
-- Only work on `feat/municipal-homepage-v07`; never commit to `main`.
-- Open/maintain one draft PR for homepage, tracking each commit in this file and PR description.
-- Do not edit favicon files, metadata, or icon references.
-- Do not modify `bizzi-pilot-platform` repository or auth paths in this PR.
-- Any deployment must be preview-only until explicit review and approval.
-- Rollback: close PR and delete the feature branch; production `main` is unchanged. If merged later, revert the merge commit via a new PR.
-- Components should be isolated with explicit types and public props for Claude takeover; no app-wide dependencies for a local hero feature.
+## Public product truth
+- PS Sensor: stall/bay occupancy validation, as confirmed by owner. Do not transfer that validation to Lane Counter.
+- Lane Counter: camera-free, battery/cellular architecture for one controlled one-way entry/exit lane. v0.7 is an approved CAD baseline, not proof of validated sensing, sealing, battery life or production readiness.
+- Turnkey service: planned sensors, connectivity, operator data across lots/garages. Driver availability map is a future offering. No invented live counts, integrations, accuracy figures or launch dates.
+- Engineering source: `bizzi-pilot-platform/lane-counter/docs/SOURCE_OF_TRUTH.md`. Internal gate metrics remain out of public UI.
+- Goal: explain the offering, request a deployment call, request waitlist updates. No checkout.
 
-## Locked visual / UX requirements
-White/light neutral canvas with surface layers; Bizzi cobalt is a restrained accent, never giant filled panels. Deep navy primary text, slate secondary. Tokens only. One sans, mono only for engineering labels/numerals. 8-point rhythm, 4–8px radii, 1px borders, no card shadows. Buttons: cobalt primary, understated secondary; no black border. WCAG AA contrast. Minimum 44px touch targets on mobile. No horizontal scrolling at 320px+, no content clipping. No gradients, glows, bento rows, oversized badges or decorative motion.
-Respect latest user rule: NO parallax, bounce, auto scroll transitions or scroll hijack. Manual exploded hardware interaction may move in <=240ms, and obey reduced motion.
-Hero shall display v0.7 engineering-based depiction, not generic mockup. Status labels accurately distinguish prototype from proposed capabilities.
-Logo: use supplied `BizziLogo.png` asset; do not alter favicon. If binary upload cannot be completed in connector environment, use a documented temporary vector in preview only, and replace with user asset before launch.
+## Isolation and rollback
+- Never merge or push to main, change production, or change favicon files/metadata/icon references.
+- Website work stays in PR #1. CAD export work stays in pilot PR #9 (`assets/web-lane-counter-v07`). No pilot runtime/auth/firmware/database/CAD-source edits.
+- Existing `/login` redirects to established pilot login; homepage uses footer entry for invited operators.
+- Rollback this revision by reverting its commit; earlier draft baseline is `6b5d3625e11778a618644be9451c716ee07d9296`. Closing the unmerged drafts leaves production unchanged.
 
-## Roadmap / pass gates
-- [x] M0 — inspect GitHub projects and Nov 13 source of truth; branch isolation.
-- [x] M1a foundation (not yet accepted) — implement design tokens, accessible Nav and CTAs, landing page hero, actual v0.7 CAD-derived visual, and custom 404. Preserve existing secondary routes and favicon.
-- [ ] M1b — model conversion from v0.7 STEP to optimized GLB meshes with part IDs; manual explode/reassemble, keyboard selection, operator memos, media fallback. Do not claim completed 3D interaction until asset and functionality are verified.
-- [ ] M1c — test Next production build, 320/375/768/1440 widths, no horizontal overflow, controls, accessibility, 404, keyboard, reduced motion. Fix defects before preview acceptance.
-- [ ] M2 — city-level *illustrative* preview (location input, grounded facilities, no fake real-time occupancy or lane layouts), no email gate.
-- [ ] M3 — meeting booking flow with verified provider and backend persistence; no false success; privacy disclosures.
-- [ ] M4 — consent-aware deterministic visitor preferences and personalization. User can clear preferences.
-- [ ] M5 — link existing invite-only portal login. Audit Supabase auth and permissions; do not modify authorization without separate PR and tests.
-- [ ] M6 — SEO, security, A11y, performance review, deployment and rollback rehearsal.
+## Implemented in this revision
+- Swiss nav, 60/40 hero, neutral informational band (no fake live telemetry), platform rows, hardware explorer, markets, restrained validation and contact section.
+- Original logo retained; actual v0.7 SVG used for hero; system typography removes remote font fetches.
+- On-demand Three.js viewer: exact four-part GLB copied byte-for-byte from pilot PR #9 at `d56a59ad06794f41e851acfb484c7b88eee23627`. Selection highlights a part; exploded offsets are presentation-only. Original vertices and assembly positions restored when reassembled. Static fallback, loading and retry states; no continuous rendering loop.
+- Shared InquiryForm replaces legacy reset-on-mailto contact and broken `/api/waitlist` submission. Owner confirmed `josh@bizzisystems.com`; no booking/waitlist service exists. Forms validate fields, open an email draft, retain entries, and explicitly state nothing is stored or booked. Visitor must send the draft. No test message is sent.
+- Custom 404 preserved; responsive skeleton updated. Existing team/investors/legal routes still need a separate content/design audit before launch.
 
-## Current implementation notes (Nov 14)
-- Homepage implementation committed: tokens, navigation, responsive hero, CAD v0.7 assembly drawing, operator component memos, candid validation, 404 and loading skeletons.
-- Current hardware image is the **authentic v0.7 CAD SVG**; it is not yet an interactive GLB/3D viewer. Do not describe M1b as complete.
-- Current login route is a truthful temporary information page; portal URL/auth routing is not yet integrated.
-- Current contact page still uses legacy mailto behavior; proper scheduling/lead backend is M3.
-- Vercel access requires authorization; local clone failed because the container DNS could not resolve github.com. GitHub Actions CI added; do not claim responsive or build acceptance until checks run.
-- Main site has older secondary pages (investors/waitlist/contact) not yet reworked. These need copy/content audit before launch.
+## Verification and acceptance
+- Run `npm ci`, `npx tsc --noEmit`, `npm run build`.
+- Browser suite: install Playwright as documented in CI, then `node scripts/website-smoke.cjs`. Screenshots under ignored `artifacts/website-smoke/`. Includes 320/375/768/1440 overflow, 60/40 grid, component memo, actual WebGL loading, explode/reassemble, reduced motion, email request behavior, keyboard skip link, 404 and portal redirect.
+- CAD: pilot `python3 scripts/verify_lane_v07_web.py` checks all four meshes against approved STL vertices in both directions at 0.1µm tolerance. GLB 913,740 bytes; SHA256 `b0f2b37207031c3e79e4ccbfdbe2dca3f2f2a67e6dfcc1dad6db58d13468b617`.
+- Local production build, TypeScript and browser suite passed; evidence and screenshot inventory are in `docs/WEBSITE_REVIEW.md`.
+- Visual review by owner remains required. Automated checks do not certify full WCAG conformance or hardware performance.
 
-## Claude takeover protocol
-Read this file, `docs/WEBSITE_CHANGELOG.md`, full draft PR diff, v0.7 README and `SOURCE_OF_TRUTH.md` before editing. Confirm base SHA, run build and viewport tests, inspect designs before adding dependencies. Work on the same feature branch with small semantic commits (or branch from it for reviewed changes). Update both change log and PR description for every milestone, note any unvalidated assumptions and incomplete tests. Never overwrite the build plan or alter pilot repo outside separately approved PRs.
+## Remaining milestones
+1. Owner visual acceptance of homepage and CAD viewer. Keep both PRs drafts.
+2. Replace email request flow with real booking and persisted waitlist once provider/backend is chosen. Never show false success. Add consent and failure/retry behavior with persistence.
+3. City visualization and visitor personalization, separately approved after homepage acceptance. Any illustrative map must be labeled and use grounded facilities, without fake availability.
+4. Audit legacy secondary pages, full accessibility, performance, security/dependency review and preview acceptance before release. No production deployment authorized here.
+
+## Claude takeover
+Read this plan, WEBSITE_CHANGELOG.md, both draft PR diffs, CAD README/provenance and engineering source of truth. Confirm current head before editing. Preserve exact visual tokens and fact distinctions. Components: CivicHome owns selection/view state; HardwareViewer accepts typed `selected` and `exploded`; InquiryForm accepts `kind`. Keep bounded modules, update both docs and PR chronology per milestone, run the meaningful checks above, and record limits honestly.
