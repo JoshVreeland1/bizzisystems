@@ -23,3 +23,16 @@ jobs:
         run: npx tsc --noEmit
       - name: Build
         run: npm run build
+      - name: Install browser smoke dependencies
+        run: |
+          npm install --no-save --no-package-lock playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Desktop and mobile interaction smoke tests
+        run: node scripts/website-smoke.cjs
+      - name: Upload screenshots for visual review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-review-screenshots
+          path: artifacts/website-smoke/
+          if-no-files-found: ignore
