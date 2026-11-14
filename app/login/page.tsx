@@ -1,2 +1,7 @@
-import Link from "next/link";
-export default function Login(){return <section className="b-shell b-centered-state"><p style={{fontSize:13,color:"var(--b-accent)",fontWeight:600}}>Authorized access</p><h1>Customer portal</h1><p>The pilot platform is invitation-only. The public-site sign-in connection is being verified against the existing platform authentication and deployment URL. We won't send you to an unverified login endpoint.</p><Link className="b-btn b-btn-primary" href="/contact">Request access information <span aria-hidden="true">↗</span></Link></section>}
+import { redirect } from "next/navigation";
+
+// Authentication remains entirely inside the existing pilot platform.
+// Its server middleware validates session, active profile, and role permissions.
+export default function LoginPage() {
+  redirect("https://bizzi-pilot-platform.vercel.app/login");
+}
