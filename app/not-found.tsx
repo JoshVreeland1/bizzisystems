@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function NotFound(){return <section className="b-shell b-centered-state"><p style={{fontVariantNumeric:"tabular-nums",color:"var(--b-accent)",fontWeight:600}}>404 / Page not found</p><h1>That page isn't here.</h1><p>The link may have changed, or the address may be incorrect. Nothing was changed.</p><Link href="/" className="b-btn b-btn-primary">Return to homepage <span aria-hidden="true">↗</span></Link></section>}
